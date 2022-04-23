@@ -1,17 +1,19 @@
 <template>
   <li class="movie-card card mb-3">
     <div class="row g-0">
-      <div class="col-md-4">
-        <img src="https://placeimg.com/640/480/any" class="img-fluid rounded-start" alt="...">
+      <div class="col-md-2">
+        <img
+          :src="movie.posterUrlPreview"
+          class="img-fluid movie-card__img rounded-start" :alt="movie.nameRu"
+        >
       </div>
 
-      <div class="col-md-8">
+      <div class="col-md-10">
         <div class="card-body">
-          <a href="#" class="card-title movie-card__title">Card title</a>
-          <p class=""><small class="text-muted">The last surviviro</small></p>
+          <a href="#" class="card-title movie-card__title">{{ movie.nameRu }}</a>
+          <div>{{ getGeners }}, {{ getCountries }}</div>
 
-          <p class="card-text">США, 1984</p>
-
+          <div class="card-text text-secondary">{{ movie.year }}, {{movie.filmLength}}</div>
         </div>
       </div>
 
@@ -21,8 +23,28 @@
 
 <script lang="ts">
 
-export default {
-};
+import { computed, defineComponent, PropType } from 'vue';
+
+interface MovieI {
+  countries: [{ country: string }],
+  genres: [{ genre: string }],
+}
+
+export default defineComponent({
+  setup(props) {
+    const getCountries = computed(() => props.movie.countries[0].country);
+    const getGeners = computed(() => props.movie.genres[0].genre);
+
+    return { getCountries, getGeners };
+  },
+  props: {
+    movie: {
+      type: Object as PropType<MovieI>,
+      required: true,
+    },
+  },
+});
+
 </script>
 
 <style scoped lang="scss">
@@ -31,6 +53,10 @@ export default {
 
   &__title {
     font-size: 24px;
+  }
+
+  &__img {
+
   }
 }
 </style>

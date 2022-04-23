@@ -6,9 +6,12 @@
     <div class="row">
 
       <div class="col-lg-8">
+        <h2 class="mb-3 mb-lg-4">Список фильмов</h2>
+
         <ul>
-          <MovieCard v-for="movie in movies" :key="movie" />
+          <MovieCard v-for="movie in movies" :key="movie" :movie="movie" />
         </ul>
+        <Pagination-block/>
       </div>
 
       <div class="d-none d-lg-block col"></div>
@@ -23,14 +26,19 @@
 
 <script lang="ts">
 import MovieCard from '@/components/Movie-card.vue';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+import PaginationBlock from '@/components/Pagination-block.vue';
 
 export default {
   setup() {
-    const movies = [1, 2, 3];
+    const store = useStore();
+
+    store.dispatch('loadMovies');
+    const movies = computed(() => store.getters.moviesAll);
 
     return { movies };
   },
-
-  components: { MovieCard },
+  components: { MovieCard, PaginationBlock },
 };
 </script>
