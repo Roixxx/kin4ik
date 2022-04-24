@@ -48,7 +48,11 @@
     "parserOptions": {
       "ecmaVersion": 2020
     },
-    "rules": {}
+    "rules": {
+		"@vue/airbnb/lines-between-class-members": "off",
+		"lines-between-class-members": "off",
+		"@typescript-eslint/lines-between-class-members": "off"
+	}
   },
   "browserslist": [
     "> 1%",

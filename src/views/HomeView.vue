@@ -11,9 +11,8 @@
         <ul>
           <MovieCard v-for="movie in movies" :key="movie" :movie="movie" />
         </ul>
-        <Pagination-block/>
+        <Pagination-block />
       </div>
-
       <div class="d-none d-lg-block col"></div>
 
       <div class="col-lg-3">
@@ -29,12 +28,14 @@ import MovieCard from '@/components/Movie-card.vue';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
 import PaginationBlock from '@/components/Pagination-block.vue';
+import { useRoute } from 'vue-router';
 
 export default {
   setup() {
     const store = useStore();
+    const route = useRoute();
 
-    store.dispatch('loadMovies');
+    store.dispatch('loadMovies', route.query.page || 1);
     const movies = computed(() => store.getters.moviesAll);
 
     return { movies };
