@@ -1,65 +1,66 @@
 <template>
   <nav>
+
     <ul class="pagination">
 
-      <li class="page-item"
-          :class="{disabled: activePage === 1}"
-          @click="prevPage" @keypress="prevPage">
+      <li class="page-item" :class="{disabled: activePage === 1}">
 
-        <a class="page-link" href="#">Предыдущая</a>
+        <a class="page-link"
+           :href="`?page=${activePage - 1}`"
+           @click.prevent="navigate('prev')"
+           @keypress.prevent="navigate('prev')">Предыдущая</a>
       </li>
 
       <li class="page-item"
-          :class="{active: i === activePage}"
-          v-for="i in pagesCount"
-          :key="i"
-          @click="navigate(i)" @keypress="navigate(i)">
+          v-for="val in paginationView"
+          :key="val"
+          :class="{active: val === activePage, disabled: val === '...'}">
 
-          <a class="page-link" href="#">{{ i }}</a>
+        <a class="page-link"
+           :href="`?page=${val}`"
+           @click.prevent="navigate(val)"
+           @keypress.prevent="navigate(val)">{{ val }}</a>
       </li>
 
-      <li class="page-item"
-          :class="{disabled: activePage === pagesCount}"
-          @click="nextPage" @keypress="nextPage">
+      <li class="page-item" :class="{disabled: activePage === pagesCount}">
 
-        <a class="page-link" href="#">Следующая</a>
+        <a class="page-link"
+           :href="`?page=${activePage + 1}`"
+           @click.prevent="navigate('next')"
+           @keypress.prevent="navigate('next')">Следующая</a>
       </li>
-
     </ul>
+
   </nav>
 </template>
 
 <script lang="ts">
 import {
-  computed, defineComponent, ref, watch,
+  computed, defineComponent, watch,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+import PaginationRender from '@/use/PaginationRender';
 
 export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
     const route = useRoute();
+
     const pagesCount = computed(() => store.getters.pagesCountAll);
     const activePage = computed(() => Number(route.query.page) || 1);
+    const paginationView = computed(() => PaginationRender(activePage.value, pagesCount.value));
 
-    function navigate(pageIndex: number) {
+    function navigate(pageIndex: number | string) {
+      if (pageIndex === 'next') pageIndex = activePage.value + 1;
+      if (pageIndex === 'prev') pageIndex = activePage.value - 1;
+
+      if (pageIndex > pagesCount.value) return;
+      if (pageIndex < 1) return;
+      if (pageIndex === '...') return;
+
       router.push({ query: { page: pageIndex } });
-    }
-
-    function navigateArrow() {
-
-    }
-
-    function nextPage() {
-      if (activePage.value === pagesCount.value) return;
-      navigate(activePage.value + 1);
-    }
-
-    function prevPage() {
-      if (activePage.value === 1) return;
-      navigate(activePage.value - 1);
     }
 
     watch(() => route.query.page, () => {
@@ -67,7 +68,7 @@ export default defineComponent({
     });
 
     return {
-      activePage, navigate, nextPage, prevPage, pagesCount, route,
+      activePage, navigate, pagesCount, route, paginationView,
     };
   },
 });

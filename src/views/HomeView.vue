@@ -4,9 +4,8 @@
       <h1>Kin4ik - поиск кино</h1>
     </div>
     <div class="row">
-
+      <h2 class="mb-3 mb-lg-4">Топ 250 фильмов</h2>
       <div class="col-lg-8">
-        <h2 class="mb-3 mb-lg-4">Список фильмов</h2>
 
         <ul>
           <MovieCard v-for="movie in movies" :key="movie" :movie="movie" />
@@ -16,7 +15,7 @@
       <div class="d-none d-lg-block col"></div>
 
       <div class="col-lg-3">
-        <div class="">Фильтры</div>
+        <aside>Фильтры</aside>
       </div>
 
     </div>

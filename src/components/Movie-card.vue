@@ -10,9 +10,13 @@
 
       <div class="col-md-10">
         <div class="card-body">
-          <a href="#" class="card-title movie-card__title">{{ movie.nameRu }}</a>
-          <div>{{ getGeners }}, {{ getCountries }}</div>
+          <router-link
+            class="card-title movie-card__title"
+            :to="{name: 'movie', params: {id: movie.filmId}}">
+            {{ movie.nameRu }}
+          </router-link>
 
+          <div>{{ getGeners }}, {{ getCountries }}</div>
           <div class="card-text text-secondary">{{ movie.year }}, {{movie.filmLength}}</div>
         </div>
       </div>
