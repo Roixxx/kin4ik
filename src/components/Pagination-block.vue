@@ -1,37 +1,35 @@
 <template>
-  <nav>
 
-    <ul class="pagination">
+  <ul class="pagination">
 
-      <li class="page-item" :class="{disabled: activePage === 1}">
+    <li class="page-item" :class="{disabled: activePage === 1}">
 
-        <a class="page-link"
-           :href="`?page=${activePage - 1}`"
-           @click.prevent="navigate('prev')"
-           @keypress.prevent="navigate('prev')">Предыдущая</a>
-      </li>
+      <a class="page-link"
+         :href="`?page=${activePage - 1}`"
+         @click.prevent="navigate('prev')"
+         @keypress.prevent="navigate('prev')">Предыдущая</a>
+    </li>
 
-      <li class="page-item"
-          v-for="val in paginationView"
-          :key="val"
-          :class="{active: val === activePage, disabled: val === '...'}">
+    <li class="page-item"
+        v-for="val in paginationView"
+        :key="val"
+        :class="{active: val === activePage, disabled: val === '...'}">
 
-        <a class="page-link"
-           :href="`?page=${val}`"
-           @click.prevent="navigate(val)"
-           @keypress.prevent="navigate(val)">{{ val }}</a>
-      </li>
+      <a class="page-link"
+         :href="`?page=${val}`"
+         @click.prevent="navigate(val)"
+         @keypress.prevent="navigate(val)">{{ val }}</a>
+    </li>
 
-      <li class="page-item" :class="{disabled: activePage === pagesCount}">
+    <li class="page-item" :class="{disabled: activePage === pagesCount}">
 
-        <a class="page-link"
-           :href="`?page=${activePage + 1}`"
-           @click.prevent="navigate('next')"
-           @keypress.prevent="navigate('next')">Следующая</a>
-      </li>
-    </ul>
+      <a class="page-link"
+         :href="`?page=${activePage + 1}`"
+         @click.prevent="navigate('next')"
+         @keypress.prevent="navigate('next')">Следующая</a>
+    </li>
+  </ul>
 
-  </nav>
 </template>
 
 <script lang="ts">
@@ -40,17 +38,20 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import PaginationRender from '@/use/PaginationRender';
+import PaginationRender from '@/scripts/PaginationRender';
 
+import useDevice from '@/use/Device';
+/* eslint max-len: ["error", { "code": 115 }] */
 export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
     const route = useRoute();
+    const { deviceType } = useDevice();
 
     const pagesCount = computed(() => store.getters.pagesCountAll);
     const activePage = computed(() => Number(route.query.page) || 1);
-    const paginationView = computed(() => PaginationRender(activePage.value, pagesCount.value));
+    const paginationView = computed(() => PaginationRender(activePage.value, pagesCount.value, deviceType.value));
 
     function navigate(pageIndex: number | string) {
       if (pageIndex === 'next') pageIndex = activePage.value + 1;
@@ -78,4 +79,51 @@ export default defineComponent({
   .pagination {
     margin: 30px 0;
   }
+
+  .page-link {
+    height: 100%;
+    padding: 9px;
+    min-width: 44px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+
+  @include sm {
+    .pagination {
+      justify-content: center;
+    }
+
+    .page-item {
+
+      &.disabled .page-link {
+        opacity: 0.5;
+      }
+
+      &:first-child .page-link, &:last-child .page-link {
+        font-size: 0;
+        padding: 6px;
+
+        &:after {
+          content: '';
+          display: block;
+          width: 24px;
+          height: 24px;
+          background: url("~/src/assets/img/icons/arrow-left-s-line.svg") no-repeat center;
+        }
+      }
+
+      &:last-child .page-link:after {
+        background: url("~/src/assets/img/icons/arrow-right-s-line.svg") no-repeat center;
+      }
+    }
+  }
+
+  @include xs {
+    .page-link {
+      padding: 6px;
+      min-width: 39px;
+    }
+  }
+
 </style>

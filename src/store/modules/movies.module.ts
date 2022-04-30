@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import {
-  Action, Module, VuexModule, Mutation, config,
+  Action, Module, VuexModule, Mutation,
 } from 'vuex-module-decorators';
 
 import FetchData from '@/use/FetchData';

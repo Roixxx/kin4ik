@@ -1,7 +1,15 @@
 <template>
-  <router-view/>
+  <MainLayout/>
 </template>
 
-<style lang="scss">
+<script lang="ts">
 
-</style>
+import MainLayout from '@/layout/MainLayout.vue';
+
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  components: { MainLayout },
+});
+
+</script>
