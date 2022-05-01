@@ -8,12 +8,10 @@ export default function useDevice() {
 
   const onWidthChange = debounce(() => {
     windowWidth.value = window.innerWidth;
-    console.log('da');
   }, 400);
 
-  onMounted(() => window.addEventListener('resize', () => onWidthChange()));
-
-  onUnmounted(() => window.removeEventListener('resize', () => onWidthChange()));
+  onMounted(() => window.addEventListener('resize', onWidthChange as () => void));
+  onUnmounted(() => window.removeEventListener('resize', onWidthChange as () => void));
 
   const deviceType = computed(() => {
     if (windowWidth.value < 576) return 'xs';

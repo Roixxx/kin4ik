@@ -1,11 +1,11 @@
-export default function PaginationRender(current: any, total: any, device: string) {
+export default function PaginationRender(current: number, total: number, device: string) {
   let center = [current - 2, current - 1, current, current + 1, current + 2];
 
   if (device === 'xs') {
     center = [current - 1, current, current + 1];
   }
 
-  const filteredCenter = center.filter((p) => p > 1 && p < total);
+  const filteredCenter: (number | string)[] = center.filter((p) => p > 1 && p < total);
   const includeThreeLeft = current === 5;
   const includeThreeRight = current === total - 4;
   const includeLeftDots = current > 5;

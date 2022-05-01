@@ -43,7 +43,7 @@ import PaginationRender from '@/scripts/PaginationRender';
 import useDevice from '@/use/Device';
 /* eslint max-len: ["error", { "code": 115 }] */
 export default defineComponent({
-  setup() {
+  setup(props) {
     const router = useRouter();
     const store = useStore();
     const route = useRoute();
@@ -61,6 +61,7 @@ export default defineComponent({
       if (pageIndex < 1) return;
       if (pageIndex === '...') return;
 
+      window.scrollTo(0, props.scrollTo.offsetTop - 120);
       router.push({ query: { page: pageIndex } });
     }
 
@@ -71,6 +72,13 @@ export default defineComponent({
     return {
       activePage, navigate, pagesCount, route, paginationView,
     };
+  },
+
+  props: {
+    scrollTo: {
+      type: HTMLElement,
+      required: true,
+    },
   },
 });
 </script>

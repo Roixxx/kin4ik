@@ -18,6 +18,7 @@
 
           <div class="mb-1 movie-card__geners">{{ getGeners }}, {{ getCountries }}</div>
           <div class="movie-card__year">{{ movie.year }}, {{movie.filmLength}}</div>
+          <div class="movie-card__rating" ref="rating"></div>
         </div>
       </div>
 
@@ -27,19 +28,36 @@
 
 <script lang="ts">
 
-import { computed, defineComponent, PropType } from 'vue';
+import {
+  computed, defineComponent, onMounted, PropType, ref,
+} from 'vue';
+import ProgressBar from 'progressbar.js';
 
 interface MovieI {
   countries: [{ country: string }],
   genres: [{ genre: string }],
+  rating: number,
 }
 
 export default defineComponent({
   setup(props) {
+    const rating = ref();
     const getCountries = computed(() => props.movie.countries[0].country);
     const getGeners = computed(() => props.movie.genres[0].genre);
 
-    return { getCountries, getGeners };
+    onMounted(() => {
+      const bar = new ProgressBar.Circle(rating.value, {
+        color: '#48ad0a',
+        strokeWidth: 7,
+        trailWidth: 7,
+        text: {
+          value: props.movie.rating.toString(),
+        },
+      });
+      bar.set(props.movie.rating / 10);
+    });
+
+    return { getCountries, getGeners, rating };
   },
   props: {
     movie: {
@@ -77,9 +95,33 @@ export default defineComponent({
     }
   }
 
+  &__rating {
+    width: 40px;
+    height: 40px;
+    position: absolute !important;
+    top: 20px;
+    right: 20px;
+
+    @include sm {
+      width: 30px;
+      height: 30px;
+      font-size: 12px;
+    }
+
+  }
+
   .card-title {
     font-size: 22px;
     margin-bottom: 4px;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 60%;
+      height: 100%;
+    }
 
     @include sm() {
       margin-bottom: 0;
@@ -94,9 +136,7 @@ export default defineComponent({
   }
 
   .card-body {
-    @include sm {
-      //padding: 8px;
-    }
+    padding-right: 70px;
   }
 
 }
