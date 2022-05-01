@@ -21,24 +21,18 @@
 
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import MovieCard from '@/components/Movie-card.vue';
-import { useStore } from 'vuex';
-import { computed, defineComponent, ref } from 'vue';
 import PaginationBlock from '@/components/Pagination-block.vue';
+import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
+import { computed, ref } from 'vue';
 
-export default defineComponent({
-  setup() {
-    const store = useStore();
-    const route = useRoute();
-    const list = ref();
+const store = useStore();
+const route = useRoute();
+const list = ref();
 
-    store.dispatch('loadMovies', route.query.page || 1);
-    const movies = computed(() => store.getters.moviesAll);
+store.dispatch('loadMovies', route.query.page || 1);
+const movies = computed(() => store.getters.moviesAll);
 
-    return { movies, list };
-  },
-  components: { MovieCard, PaginationBlock },
-});
 </script>

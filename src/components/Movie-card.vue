@@ -26,45 +26,35 @@
   </li>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 
 import {
-  computed, defineComponent, onMounted, PropType, ref,
+  computed, defineProps, onMounted, ref,
 } from 'vue';
 import ProgressBar from 'progressbar.js';
 
-interface MovieI {
-  countries: [{ country: string }],
-  genres: [{ genre: string }],
-  rating: number,
-}
+const props = defineProps<{
+  movie: {
+    countries: [{ country: string }],
+    genres: [{ genre: string }],
+    rating: number,
+  }
+}>();
 
-export default defineComponent({
-  setup(props) {
-    const rating = ref();
-    const getCountries = computed(() => props.movie.countries[0].country);
-    const getGeners = computed(() => props.movie.genres[0].genre);
+const rating = ref();
+const getCountries = computed(() => props.movie.countries[0].country);
+const getGeners = computed(() => props.movie.genres[0].genre);
 
-    onMounted(() => {
-      const bar = new ProgressBar.Circle(rating.value, {
-        color: '#48ad0a',
-        strokeWidth: 7,
-        trailWidth: 7,
-        text: {
-          value: props.movie.rating.toString(),
-        },
-      });
-      bar.set(props.movie.rating / 10);
-    });
-
-    return { getCountries, getGeners, rating };
-  },
-  props: {
-    movie: {
-      type: Object as PropType<MovieI>,
-      required: true,
+onMounted(() => {
+  const bar = new ProgressBar.Circle(rating.value, {
+    color: '#48ad0a',
+    strokeWidth: 7,
+    trailWidth: 7,
+    text: {
+      value: props.movie.rating.toString(),
     },
-  },
+  });
+  bar.set(props.movie.rating / 10);
 });
 
 </script>

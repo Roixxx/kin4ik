@@ -2,14 +2,8 @@
   <MainLayout/>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 
 import MainLayout from '@/layout/MainLayout.vue';
-
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  components: { MainLayout },
-});
 
 </script>

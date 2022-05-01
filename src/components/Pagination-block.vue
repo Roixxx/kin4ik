@@ -1,7 +1,5 @@
 <template>
-
   <ul class="pagination">
-
     <li class="page-item" :class="{disabled: activePage === 1}">
 
       <a class="page-link"
@@ -29,58 +27,51 @@
          @keypress.prevent="navigate('next')">Следующая</a>
     </li>
   </ul>
-
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+
 import {
-  computed, defineComponent, watch,
+  computed, defineProps, watch,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import PaginationRender from '@/scripts/PaginationRender';
-
 import useDevice from '@/use/Device';
-/* eslint max-len: ["error", { "code": 115 }] */
-export default defineComponent({
-  setup(props) {
-    const router = useRouter();
-    const store = useStore();
-    const route = useRoute();
-    const { deviceType } = useDevice();
 
-    const pagesCount = computed(() => store.getters.pagesCountAll);
-    const activePage = computed(() => Number(route.query.page) || 1);
-    const paginationView = computed(() => PaginationRender(activePage.value, pagesCount.value, deviceType.value));
+const props = defineProps<{
+  scrollTo: HTMLElement
+}>();
 
-    function navigate(pageIndex: number | string) {
-      if (pageIndex === 'next') pageIndex = activePage.value + 1;
-      if (pageIndex === 'prev') pageIndex = activePage.value - 1;
+const router = useRouter();
+const store = useStore();
+const route = useRoute();
+const { deviceType } = useDevice();
 
-      if (pageIndex > pagesCount.value) return;
-      if (pageIndex < 1) return;
-      if (pageIndex === '...') return;
+const pagesCount = computed(() => store.getters.pagesCountAll);
+const activePage = computed(() => Number(route.query.page) || 1);
+const paginationView = computed(() => PaginationRender(
+  activePage.value,
+  pagesCount.value,
+  deviceType.value,
+));
 
-      window.scrollTo(0, props.scrollTo.offsetTop - 120);
-      router.push({ query: { page: pageIndex } });
-    }
+function navigate(pageIndex: number | string) {
+  if (pageIndex === 'next') pageIndex = activePage.value + 1;
+  if (pageIndex === 'prev') pageIndex = activePage.value - 1;
 
-    watch(() => route.query.page, () => {
-      store.dispatch('loadMovies', route.query.page);
-    });
+  if (pageIndex > pagesCount.value) return;
+  if (pageIndex < 1) return;
+  if (pageIndex === '...') return;
 
-    return {
-      activePage, navigate, pagesCount, route, paginationView,
-    };
-  },
+  window.scrollTo(0, props.scrollTo.offsetTop - 120);
+  router.push({ query: { page: pageIndex } });
+}
 
-  props: {
-    scrollTo: {
-      type: HTMLElement,
-      required: true,
-    },
-  },
+watch(() => route.query.page, () => {
+  store.dispatch('loadMovies', route.query.page);
 });
+
 </script>
 
 <style lang="scss" scoped>
