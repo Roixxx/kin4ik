@@ -1,4 +1,5 @@
 <template>
+  {{ x.toFixed(253) }}
   <ul class="pagination">
     <li class="page-item" :class="{disabled: activePage === 1}">
 
@@ -29,8 +30,7 @@
   </ul>
 </template>
 
-<script lang="ts" setup>
-
+<script setup lang="ts">
 import {
   computed, defineProps, watch,
 } from 'vue';
@@ -38,6 +38,8 @@ import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import PaginationRender from '@/scripts/PaginationRender';
 import useDevice from '@/use/Device';
+
+const x: number | string = '12535';
 
 const props = defineProps<{
   scrollTo: HTMLElement
