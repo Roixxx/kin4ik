@@ -1,10 +1,10 @@
 <template>
-  <li class="movie-card card mb-3">
+  <li v-if="!loading" class="movie-card card mb-3">
     <div class="row g-0">
       <div class="col-3 col-sm-2">
         <img
-          :src="movie.posterUrlPreview"
-          class="img-fluid movie-card__img rounded-start" :alt="movie.nameRu"
+          :src="posterUrlPreview"
+          class="img-fluid movie-card__img rounded-start" :alt="name"
         >
       </div>
 
@@ -12,17 +12,19 @@
         <div class="card-body">
           <router-link
             class="card-title"
-            :to="{name: 'movie', params: {id: movie.filmId}}">
-            {{ movie.nameRu }}
+            :to="{name: 'movie', params: {id: id}}">
+            {{ name }}
           </router-link>
 
-          <div class="mb-1 movie-card__geners">{{ getGeners }}, {{ getCountries }}</div>
-          <div class="movie-card__year">{{ movie.year }}, {{movie.filmLength}}</div>
-          <div class="movie-card__rating" ref="rating"></div>
+          <div class="mb-1 movie-card__geners">{{ genre }}, {{ country }}</div>
+          <div class="movie-card__year">{{ year }}, {{ filmLength }}</div>
+          <div class="movie-card__rating" ref="ratingEl"></div>
         </div>
       </div>
-
     </div>
+  </li>
+  <li v-else>
+    <TheLoading></TheLoading>
   </li>
 </template>
 
@@ -32,29 +34,54 @@ import {
   computed, defineProps, onMounted, ref,
 } from 'vue';
 import ProgressBar from 'progressbar.js';
+import { useStore } from 'vuex';
+import TheLoading from '@/components/TheLoading.vue';
 
 const props = defineProps<{
   movie: {
     countries: [{ country: string }],
     genres: [{ genre: string }],
     rating: number,
+    ratingKinopoisk: number,
+    filmId: number,
+    kinopoiskId: number,
+    nameRu: string,
+    nameEn: string,
+    nameOriginal: string,
+    posterUrlPreview: string,
+    year: string,
+    filmLength: string | number,
   }
 }>();
 
-const rating = ref();
-const getCountries = computed(() => props.movie.countries[0].country);
-const getGeners = computed(() => props.movie.genres[0].genre);
+const store = useStore();
+
+const movieItem = ref(props.movie);
+const movie = movieItem.value;
+
+const name = movie.nameRu || movie.nameEn || movie.nameOriginal;
+const rating = movie.rating || movie.ratingKinopoisk;
+const id = movie.filmId || movie.kinopoiskId;
+const filmLength = '2ч';
+const { country } = movie.countries[0] || '';
+const { genre } = movie.genres[0] || '';
+const { posterUrlPreview } = movie;
+const { year } = movie;
+
+const ratingEl = ref();
+const loading = computed(() => store.getters.loading);
 
 onMounted(() => {
-  const bar = new ProgressBar.Circle(rating.value, {
+  if (!ratingEl.value) return;
+  const bar = new ProgressBar.Circle(ratingEl.value, {
     color: '#48ad0a',
     strokeWidth: 7,
     trailWidth: 7,
     text: {
-      value: props.movie.rating.toString(),
+      value: rating.toString(),
     },
   });
-  bar.set(props.movie.rating / 10);
+  bar.set(rating / 10);
 });
 
 </script>
@@ -66,7 +93,10 @@ onMounted(() => {
 
   &__img {
     height: 100%;
-    object-fit: contain;
+    max-height: 190px;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
   }
 
   &__geners {

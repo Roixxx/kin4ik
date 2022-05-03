@@ -1,40 +1,42 @@
 /* eslint-disable class-methods-use-this */
 import {
-  Action, Module, VuexModule, Mutation,
+  Action, Module, Mutation, VuexModule,
 } from 'vuex-module-decorators';
 
-import FetchData from '@/use/FetchData';
+import UseFetchData from '@/use/FetchData';
 import Api from '@/use/Api';
 
 interface dataI {
   films: [],
+  items: [],
   pagesCount: number,
+  totalPages: number,
 }
 
 @Module
 export default class moviesModule extends VuexModule {
-  movies = [];
+  moviesList = [];
   pagesCount = 0;
 
-  get pagesCountAll() {
+  get pagesCountVal() {
     return this.pagesCount;
   }
 
-  get moviesAll() {
-    return this.movies;
+  get movies() {
+    return this.moviesList;
   }
 
   @Mutation
   setMovies(data: dataI) {
-    this.movies = data.films;
-    this.pagesCount = data.pagesCount;
+    this.moviesList = data.films || data.items;
+    this.pagesCount = data.pagesCount || data.totalPages;
   }
 
   @Action({ commit: 'setMovies' })
-  loadMovies(page?: number) {
-    let url = Api.movies.top250;
+  async loadMovies(page?: number, listName: 'popular' | 'top250' = 'popular') {
+    let { url } = Api.movies[listName];
     if (page) url += `?page=${page}`;
 
-    return FetchData(url);
+    return UseFetchData(url);
   }
 }

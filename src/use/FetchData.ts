@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from '@/store';
 
 const config = {
   headers: {
@@ -7,10 +8,10 @@ const config = {
   },
 };
 
-export default function FetchData(url: string) {
-  return axios.get(url, config)
-    .then((res) => {
-      console.log('Data fetched: ', res.data);
-      return res.data;
-    });
+export default async function UseFetchData(url: string) {
+  store.commit('toggleLoading');
+  const response = await axios.get(url, config);
+  store.commit('toggleLoading');
+
+  return response.data;
 }

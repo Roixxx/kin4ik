@@ -47,7 +47,7 @@ const store = useStore();
 const route = useRoute();
 const { deviceType } = useDevice();
 
-const pagesCount = computed(() => store.getters.pagesCountAll);
+const pagesCount = computed(() => store.getters.pagesCountVal);
 const activePage = computed(() => Number(route.query.page) || 1);
 const paginationView = computed(() => PaginationRender(
   activePage.value,
