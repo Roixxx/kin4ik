@@ -20,16 +20,18 @@ import PaginationBlock from '@/components/Pagination-block.vue';
 import TheLoading from '@/components/TheLoading.vue';
 
 import { useStore } from 'vuex';
+import { computed, inject, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { computed, ref } from 'vue';
+import { categoryI } from '@/views/HomeView.vue';
 
-const store = useStore();
 const route = useRoute();
+const store = useStore();
 const list = ref();
 const page = route.query.page || 1;
-const url = 'props';
+store.commit('setCurrentPage', page);
+const category = inject<categoryI>('category') as categoryI;
 
-store.dispatch('loadMovies', { page, url });
+store.dispatch('loadMovies', category.url);
 const movies = computed(() => store.getters.movies);
 </script>
 

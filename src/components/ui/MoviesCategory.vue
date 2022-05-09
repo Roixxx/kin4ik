@@ -18,8 +18,9 @@
 <script lang="ts" setup>
 import MovieListing from '@/components/Movie-lisiting.vue';
 import { inject } from 'vue';
+import { categoryI } from '@/views/HomeView.vue';
 
-inject('category');
+const category = inject('category') as categoryI;
 
 </script>
 

@@ -31,12 +31,13 @@
 
 <script setup lang="ts">
 import {
-  computed, defineProps, watch,
+  computed, defineProps, inject, watch,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import PaginationRender from '@/scripts/PaginationRender';
 import useDevice from '@/use/Device';
+import { categoryI } from '@/views/HomeView.vue';
 
 const props = defineProps<{
   scrollTo: HTMLElement
@@ -67,8 +68,11 @@ function navigate(pageIndex: number | string) {
   router.push({ query: { page: pageIndex } });
 }
 
+const category = inject<categoryI>('category') as categoryI;
 watch(() => route.query.page, () => {
-  store.dispatch('loadMovies', route.query.page);
+  if (!route.query.page) return;
+  store.commit('setCurrentPage', route.query.page);
+  store.dispatch('loadMovies', category.url);
 });
 
 </script>

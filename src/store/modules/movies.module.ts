@@ -4,7 +4,7 @@ import {
 } from 'vuex-module-decorators';
 
 import UseFetchData from '@/use/FetchData';
-import Api from '@/use/Api';
+import store from '@/store';
 
 interface dataI {
   films: [],
@@ -33,9 +33,10 @@ export default class moviesModule extends VuexModule {
   }
 
   @Action({ commit: 'setMovies' })
-  async loadMovies(page?: number, listName: 'popular' | 'top250' = 'popular') {
-    let { url } = Api.movies[listName];
-    if (page) url += `?page=${page}`;
+  async loadMovies(url: string) {
+    const page = store.getters.currentPage;
+
+    url += `?page=${page}`;
 
     return UseFetchData(url);
   }

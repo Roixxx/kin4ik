@@ -9,6 +9,7 @@ export default {
     popular: {
       url: `${entry}/films/`,
       title: 'Популярыне фильмы',
+      query: '?type=FILM',
     },
   },
 };
