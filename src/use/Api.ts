@@ -1,6 +1,6 @@
 const entry = 'https://kinopoiskapiunofficial.tech/api/v2.2';
 
-export default {
+const Api = {
   movies: {
     top250: {
       url: `${entry}/films/top/`,
@@ -9,7 +9,18 @@ export default {
     popular: {
       url: `${entry}/films/`,
       title: 'Популярыне фильмы',
-      query: '?type=FILM',
+      query: 'type=FILM',
+    },
+    singleMovie: {
+      url: `${entry}/films/`,
     },
   },
 };
+
+interface categoryI {
+  url: string,
+  title?: string,
+  query?: string,
+}
+
+export { Api, categoryI };

@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import MoviesCategory from '@/components/ui/MoviesCategory.vue';
-import Api from '@/use/Api';
+import { Api } from '@/use/Api';
 import { provide } from 'vue';
 
 provide('category', Api.movies.top250);

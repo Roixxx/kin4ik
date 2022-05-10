@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import moviesModule from '@/store/modules/movies.module';
+import SingleMovie from '@/store/modules/SingleMovie.module';
 
 const store = createStore({
   state() {
@@ -26,7 +27,7 @@ const store = createStore({
       state.currentPage = page;
     },
   },
-  modules: { moviesModule },
+  modules: { moviesModule, SingleMovie },
 });
 
 export default store;

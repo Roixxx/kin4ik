@@ -35,9 +35,9 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import PaginationRender from '@/scripts/PaginationRender';
+import PaginationRender from '@/use/PaginationRender';
 import useDevice from '@/use/Device';
-import { categoryI } from '@/views/HomeView.vue';
+import { categoryI } from '@/use/Api';
 
 const props = defineProps<{
   scrollTo: HTMLElement
@@ -72,7 +72,7 @@ const category = inject<categoryI>('category') as categoryI;
 watch(() => route.query.page, () => {
   if (!route.query.page) return;
   store.commit('setCurrentPage', route.query.page);
-  store.dispatch('loadMovies', category.url);
+  store.dispatch('loadMovies', category);
 });
 
 </script>

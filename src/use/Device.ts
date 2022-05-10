@@ -15,6 +15,7 @@ export default function useDevice() {
 
   const deviceType = computed(() => {
     if (windowWidth.value < 576) return 'xs';
+    if (windowWidth.value < 768) return 'sm';
     return 'desktop';
   });
 

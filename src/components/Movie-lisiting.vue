@@ -22,7 +22,7 @@ import TheLoading from '@/components/TheLoading.vue';
 import { useStore } from 'vuex';
 import { computed, inject, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { categoryI } from '@/views/HomeView.vue';
+import { categoryI } from '@/use/Api';
 
 const route = useRoute();
 const store = useStore();
@@ -31,7 +31,7 @@ const page = route.query.page || 1;
 store.commit('setCurrentPage', page);
 const category = inject<categoryI>('category') as categoryI;
 
-store.dispatch('loadMovies', category.url);
+store.dispatch('loadMovies', category);
 const movies = computed(() => store.getters.movies);
 </script>
 
