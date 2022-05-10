@@ -64,7 +64,7 @@ function navigate(pageIndex: number | string) {
   if (pageIndex < 1) return;
   if (pageIndex === '...') return;
 
-  window.scrollTo(0, props.scrollTo.offsetTop - 120);
+  window.scrollTo(0, props.scrollTo.offsetTop - 300);
   router.push({ query: { page: pageIndex } });
 }
 

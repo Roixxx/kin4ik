@@ -1,14 +1,9 @@
 <template>
-
-  <div class="row">
-
-    <MoviesCategory/>
-  </div>
-
+  <MoviesCategory/>
 </template>
 
 <script lang="ts" setup>
-import MoviesCategory from '@/components/ui/MoviesCategory.vue';
+import MoviesCategory from '@/components/Movie-category.vue';
 import { Api } from '@/use/Api';
 import { provide } from 'vue';
 

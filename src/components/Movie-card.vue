@@ -18,7 +18,7 @@
 
           <div class="mb-1 movie-card__geners">{{ genre }}, {{ country }}</div>
           <div class="movie-card__year">{{ year }}, {{ filmLength }}</div>
-          <div class="movie-card__rating" ref="ratingEl"></div>
+          <MovieRating :rating="rating"/>
         </div>
       </div>
     </div>
@@ -31,28 +31,14 @@
 <script lang="ts" setup>
 
 import {
-  computed, defineProps, onMounted, ref,
+  computed, defineProps, ref,
 } from 'vue';
-import ProgressBar from 'progressbar.js';
 import { useStore } from 'vuex';
 import TheLoading from '@/components/TheLoading.vue';
+import { IMovie } from '@/types/movie';
+import MovieRating from '@/components/Movie-rating.vue';
 
-const props = defineProps<{
-  movie: {
-    countries: [{ country: string }],
-    genres: [{ genre: string }],
-    rating: number,
-    ratingKinopoisk: number,
-    filmId: number,
-    kinopoiskId: number,
-    nameRu: string,
-    nameEn: string,
-    nameOriginal: string,
-    posterUrlPreview: string,
-    year: string,
-    filmLength: string | number,
-  }
-}>();
+const props = defineProps<{ movie: IMovie }>();
 
 const store = useStore();
 
@@ -60,33 +46,18 @@ const movieItem = ref(props.movie);
 const movie = movieItem.value;
 
 const name = movie.nameRu || movie.nameEn || movie.nameOriginal;
-const rating = movie.rating || movie.ratingKinopoisk;
 const id = movie.filmId || movie.kinopoiskId;
+const rating = +movie.rating || +movie.ratingKinopoisk;
 const filmLength = '2ч';
 const { country } = movie.countries[0] || '';
 const { genre } = movie.genres[0] || '';
-const { posterUrlPreview } = movie;
-const { year } = movie;
+const { posterUrlPreview, year } = movie;
 
-const ratingEl = ref();
 const loading = computed(() => store.getters.loading);
-
-onMounted(() => {
-  if (!ratingEl.value) return;
-  const bar = new ProgressBar.Circle(ratingEl.value, {
-    color: '#48ad0a',
-    strokeWidth: 7,
-    trailWidth: 7,
-    text: {
-      value: rating.toString(),
-    },
-  });
-  bar.set(rating / 10);
-});
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 .movie-card {
   position: relative;
@@ -113,21 +84,6 @@ onMounted(() => {
     @include sm {
       font-size: 12px;
     }
-  }
-
-  &__rating {
-    width: 40px;
-    height: 40px;
-    position: absolute !important;
-    top: 20px;
-    right: 20px;
-
-    @include sm {
-      width: 30px;
-      height: 30px;
-      font-size: 12px;
-    }
-
   }
 
   .card-title {
