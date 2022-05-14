@@ -17,7 +17,9 @@
           </router-link>
 
           <div class="mb-1 movie-card__geners">{{ genre }}, {{ country }}</div>
-          <div class="movie-card__year">{{ year }}, {{ filmLength }}</div>
+          <div class="movie-card__year">
+            {{ year }}<span v-if="props.movie.filmLength">, {{ props.movie.filmLength }}</span>
+          </div>
           <MovieRating :rating="rating"/>
         </div>
       </div>
@@ -36,10 +38,9 @@ import {
 import { useStore } from 'vuex';
 import TheLoading from '@/components/TheLoading.vue';
 import { IMovie } from '@/types/movie';
-import MovieRating from '@/components/Movie-rating.vue';
+import MovieRating from '@/components/movie/Movie-rating.vue';
 
 const props = defineProps<{ movie: IMovie }>();
-
 const store = useStore();
 
 const movieItem = ref(props.movie);
@@ -48,7 +49,6 @@ const movie = movieItem.value;
 const name = movie.nameRu || movie.nameEn || movie.nameOriginal;
 const id = movie.filmId || movie.kinopoiskId;
 const rating = +movie.rating || +movie.ratingKinopoisk;
-const filmLength = '2ч';
 const { country } = movie.countries[0] || '';
 const { genre } = movie.genres[0] || '';
 const { posterUrlPreview, year } = movie;

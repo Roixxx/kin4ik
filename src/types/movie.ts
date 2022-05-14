@@ -12,6 +12,7 @@ interface IMovie {
   year: string,
   filmLength: string | number,
   coverUrl: string,
+  description: string,
 }
 
 export { IMovie };

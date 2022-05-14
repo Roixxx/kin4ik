@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import MovieListing from '@/components/Movie-lisiting.vue';
+import MovieListing from '@/components/movie/Movie-lisiting.vue';
 import { inject } from 'vue';
 import { categoryI } from '@/use/Api';
 

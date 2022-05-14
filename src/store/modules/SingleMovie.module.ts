@@ -11,7 +11,7 @@ interface MovieI {
 
 @Module({ namespaced: true })
 export default class SingleMovie extends VuexModule {
-  movie: MovieI = {} as MovieI;
+  movie: MovieI | null = null;
 
   get getMovie() {
     return this.movie;

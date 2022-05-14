@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import MoviesCategory from '@/components/Movie-category.vue';
+import MoviesCategory from '@/components/movie/Movie-category.vue';
 import { Api } from '@/use/Api';
 import { provide } from 'vue';
 

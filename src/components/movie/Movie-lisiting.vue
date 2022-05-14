@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import MovieCard from '@/components/Movie-card.vue';
+import MovieCard from '@/components/movie/Movie-card.vue';
 import PaginationBlock from '@/components/Pagination-block.vue';
 import TheLoading from '@/components/TheLoading.vue';
 
