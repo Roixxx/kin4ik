@@ -1,4 +1,5 @@
 export default function useFilmLength(minutes: number) {
+  if (!minutes) return 0;
   if (minutes < 60) return `${minutes} мин`;
 
   const length = (minutes / 60).toFixed(2).toString().split('.');

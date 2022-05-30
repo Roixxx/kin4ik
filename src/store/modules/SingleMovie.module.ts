@@ -9,12 +9,21 @@ interface MovieI {
   [someKey: string]: string | number,
 }
 
+interface StaffI {
+  string: string,
+}
+
 @Module({ namespaced: true })
 export default class SingleMovie extends VuexModule {
   movie: MovieI | null = null;
+  staff: StaffI | null = null;
 
   get getMovie() {
     return this.movie;
+  }
+
+  get getStaff() {
+    return this.staff;
   }
 
   @Mutation
@@ -22,9 +31,20 @@ export default class SingleMovie extends VuexModule {
     this.movie = movie;
   }
 
+  @Mutation
+  setStaff(staff: StaffI) {
+    this.staff = staff;
+  }
+
   @Action({ rawError: true, commit: 'setMovie' })
   async loadMovie(id: number) {
-    const url = Api.movies.singleMovie.url + id;
+    const url = Api.singleMovie.main.url + id;
+    return UseFetchData(url);
+  }
+
+  @Action({ rawError: true, commit: 'setStaff' })
+  async loadStaff(id: number) {
+    const url = `${Api.singleMovie.staff.url}?filmId=${id}`;
     return UseFetchData(url);
   }
 }

@@ -21,8 +21,6 @@ const toggleTxt = ref(showMore);
 const isLongText = props.str.length > 230;
 
 const str = computed(() => {
-  console.log(props.str.indexOf(' ', 200));
-
   if (hidden.value && isLongText) {
     return `${props.str.slice(0, props.str.indexOf(' ', 200))}...`;
   }

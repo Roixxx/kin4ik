@@ -5,7 +5,7 @@ import {
 
 import UseFetchData from '@/use/FetchData';
 import store from '@/store';
-import { categoryI } from '@/use/Api';
+import { apiItemI } from '@/use/Api';
 
 interface dataI {
   films: [],
@@ -34,7 +34,7 @@ export default class moviesModule extends VuexModule {
   }
 
   @Action({ commit: 'setMovies' })
-  async loadMovies(payload: categoryI) {
+  async loadMovies(payload: apiItemI) {
     const page = store.getters.currentPage;
     const { query } = payload;
     let { url } = payload;

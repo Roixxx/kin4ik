@@ -18,9 +18,9 @@
 <script lang="ts" setup>
 import MovieListing from '@/components/movie/Movie-lisiting.vue';
 import { inject } from 'vue';
-import { categoryI } from '@/use/Api';
+import { apiItemI } from '@/use/Api';
 
-const category = inject('category') as categoryI;
+const category = inject('category') as apiItemI;
 
 </script>
 

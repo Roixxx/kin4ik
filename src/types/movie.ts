@@ -13,6 +13,7 @@ interface IMovie {
   filmLength: string | number,
   coverUrl: string,
   description: string,
+  slogan: string,
 }
 
 export { IMovie };

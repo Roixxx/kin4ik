@@ -38,13 +38,29 @@ export default defineComponent({
     a {
       color: white;
       margin-right: 16px;
-    }
-
-    &__title {
+      position: relative;
       transition: opacity 0.3s;
 
       &:hover {
         opacity: 0.7;
+      }
+
+      &.active::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -6px;
+        width: 100%;
+        height: 3px;
+        transform: skew(300deg);
+        background: rgba(238, 111, 87, 0.5);
+        z-index: -1;
+      }
+    }
+
+    &__title {
+      &.active::before {
+        content: none !important;
       }
     }
   }

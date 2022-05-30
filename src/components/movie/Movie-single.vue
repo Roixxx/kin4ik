@@ -14,7 +14,16 @@
       </div>
       <div class="my-2">Жанр: {{ geners }}</div>
       <ReadMore v-if="description" :str="description" class="movie__description"></ReadMore>
-      <div>{{ filmLength }}</div>
+
+      <div class="my-3">
+        <div v-if="filmLength">Время: {{ filmLength }}</div>
+        <div v-if="country">Страна: {{ country }}</div>
+        <div v-if="slogan">Слоган: {{ slogan }}</div>
+      </div>
+
+      <div class="my-3">
+        <MovieStaff :id="id"/>
+      </div>
     </div>
   </div>
 </template>
@@ -28,29 +37,34 @@ import { IMovie } from '@/types/movie';
 import MovieRating from '@/components/movie/Movie-rating.vue';
 import ReadMore from '@/components/Readmore.vue';
 import useFilmLength from '@/use/FilmLenght';
+import MovieStaff from '@/components/movie/Movie-staff.vue';
 
 const route = useRoute();
 const { deviceType } = useDevice();
-const { id } = route.params;
+const id = Number(route.params.id);
 const store = useStore();
 await store.dispatch('SingleMovie/loadMovie', id);
 
-const movie: ComputedRef<IMovie> = computed(() => store.getters['SingleMovie/getMovie']);
-const rating = +movie.value.rating || +movie.value.ratingKinopoisk;
-const geners = movie.value.genres.map((el) => el.genre).join(', ');
-const { description } = movie.value;
+const movieItem: ComputedRef<IMovie> = computed(() => store.getters['SingleMovie/getMovie']);
 
-const filmLength = useFilmLength(+movie.value.filmLength);
+const movie = movieItem.value;
+
+const rating = +movie.rating || +movie.ratingKinopoisk;
+const geners = movie.genres.map((el) => el.genre).join(', ');
+const country = movie.countries.map((el) => el.country).join(', ') || '';
+const { description, slogan } = movie;
+
+const filmLength = useFilmLength(+movie.filmLength);
 
 const img = computed(() => {
-  if (deviceType.value === 'desktop' || !movie.value.coverUrl) {
+  if (deviceType.value === 'desktop' || !movie.coverUrl) {
     return {
-      src: movie.value.posterUrlPreview,
+      src: movie.posterUrlPreview,
       preview: true,
-      previewBg: `background: linear-gradient(0deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.4)), url(${movie.value.posterUrlPreview})`,
+      previewBg: `background: linear-gradient(0deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.4)), url(${movie.posterUrlPreview})`,
     };
   }
-  return { src: movie.value.coverUrl };
+  return { src: movie.coverUrl };
 });
 </script>
 

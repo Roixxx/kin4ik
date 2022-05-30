@@ -37,7 +37,7 @@ import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import PaginationRender from '@/use/PaginationRender';
 import useDevice from '@/use/Device';
-import { categoryI } from '@/use/Api';
+import { apiItemI } from '@/use/Api';
 
 const props = defineProps<{
   scrollTo: HTMLElement
@@ -68,7 +68,7 @@ function navigate(pageIndex: number | string) {
   router.push({ query: { page: pageIndex } });
 }
 
-const category = inject<categoryI>('category') as categoryI;
+const category = inject<apiItemI>('category') as apiItemI;
 watch(() => route.query.page, () => {
   if (!route.query.page) return;
   store.commit('setCurrentPage', route.query.page);
