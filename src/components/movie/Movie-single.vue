@@ -1,5 +1,5 @@
 <template>
-  <div class="row movie">
+  <div class="row movie gx-5">
     <div class="col-md-3">
       <div class="movie__img-holder">
         <div class="preview-blur" :style="img.previewBg" v-if="img.preview"></div>
@@ -7,6 +7,7 @@
       </div>
     </div>
     <div class="col-md-9">
+
       <div class="movie__title-holder mt-4 mt-md-0">
         <h1 class="movie__title">{{movie.nameRu}} ({{movie.year}})</h1>
         <div class="movie__subtitle">{{ movie.nameOriginal }}</div>
@@ -22,7 +23,7 @@
       </div>
 
       <div class="my-3">
-        <MovieStaff :id="id"/>
+        <MovieStaff :id="id" :film="movie.nameRu"/>
       </div>
     </div>
   </div>
@@ -37,7 +38,7 @@ import { IMovie } from '@/types/movie';
 import MovieRating from '@/components/movie/Movie-rating.vue';
 import ReadMore from '@/components/Readmore.vue';
 import useFilmLength from '@/use/FilmLenght';
-import MovieStaff from '@/components/movie/Movie-staff.vue';
+import MovieStaff from '@/components/staff/Staff-list.vue';
 
 const route = useRoute();
 const { deviceType } = useDevice();
