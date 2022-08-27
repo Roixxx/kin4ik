@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row section">
 
     <h2 class="mb-3 mb-lg-4">{{ category.title }}</h2>
     <div class="col-lg-8">

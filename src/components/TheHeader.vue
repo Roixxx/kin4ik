@@ -1,5 +1,5 @@
 <template>
-  <header class="header bg-dark mb-4 mb-md-5">
+  <header class="header bg-dark">
     <div class="container">
       <div class="row align-items-center">
 
@@ -34,6 +34,11 @@ export default defineComponent({
     position: sticky;
     top: 0;
     z-index: 20;
+    margin-bottom: 64px;
+
+    @include sm {
+      margin-bottom: 32px;
+    }
 
     a {
       color: white;

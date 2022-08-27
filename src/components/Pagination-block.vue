@@ -1,43 +1,54 @@
 <template>
-  <ul class="pagination">
-    <li class="page-item" :class="{disabled: activePage === 1}">
+  <div class="pagination-block">
+    <a v-if="activePage !== pagesCount"
+       :href="`?page=${activePage + 1}`"
+       class="btn btn-primary w-100 btn-lg" :class="{disabled: loading}"
+       @click.prevent="navigate('next', true)"
+       @keypress.prevent="navigate('next', true)">
+      {{ loading ? "Загрузка..." : "Показать ещё" }}
+    </a>
 
-      <a class="page-link"
-         :href="`?page=${activePage - 1}`"
-         @click.prevent="navigate('prev')"
-         @keypress.prevent="navigate('prev')">Предыдущая</a>
-    </li>
+    <ul class="pagination">
+      <li class="page-item" :class="{disabled: activePage === 1}">
 
-    <li class="page-item"
-        v-for="val in paginationView"
-        :key="val"
-        :class="{active: val === activePage, disabled: val === '...'}">
+        <a class="page-link"
+           :href="`?page=${activePage - 1}`"
+           @click.prevent="navigate('prev')"
+           @keypress.prevent="navigate('prev')">Предыдущая</a>
+      </li>
 
-      <a class="page-link"
-         :href="`?page=${val}`"
-         @click.prevent="navigate(val)"
-         @keypress.prevent="navigate(val)">{{ val }}</a>
-    </li>
+      <li class="page-item"
+          v-for="val in paginationView"
+          :key="val"
+          :class="{active: val === activePage, disabled: val === '...'}">
 
-    <li class="page-item" :class="{disabled: activePage === pagesCount}">
+        <a class="page-link"
+           :href="`?page=${val}`"
+           @click.prevent="navigate(val)"
+           @keypress.prevent="navigate(val)">{{ val }}</a>
+      </li>
 
-      <a class="page-link"
-         :href="`?page=${activePage + 1}`"
-         @click.prevent="navigate('next')"
-         @keypress.prevent="navigate('next')">Следующая</a>
-    </li>
-  </ul>
+      <li class="page-item" :class="{disabled: activePage === pagesCount}">
+
+        <a class="page-link"
+           :href="`?page=${activePage + 1}`"
+           @click.prevent="navigate('next')"
+           @keypress.prevent="navigate('next')">Следующая</a>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">
 import {
-  computed, defineProps, inject, watch,
+  computed, defineProps, inject, ref,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import PaginationRender from '@/use/PaginationRender';
 import useDevice from '@/use/Device';
 import { apiItemI } from '@/use/Api';
+import smoothScroll from '@/use/SmoothScroll';
 
 const props = defineProps<{
   scrollTo: HTMLElement
@@ -48,15 +59,18 @@ const store = useStore();
 const route = useRoute();
 const { deviceType } = useDevice();
 
+const category = inject<apiItemI>('category') as apiItemI;
 const pagesCount = computed(() => store.getters.pagesCountVal);
 const activePage = computed(() => Number(route.query.page) || 1);
+const loading = ref(false);
+
 const paginationView = computed(() => PaginationRender(
   activePage.value,
   pagesCount.value,
   deviceType.value,
 ));
 
-function navigate(pageIndex: number | string) {
+async function navigate(pageIndex: number | string, append = false) {
   if (pageIndex === 'next') pageIndex = activePage.value + 1;
   if (pageIndex === 'prev') pageIndex = activePage.value - 1;
 
@@ -64,22 +78,28 @@ function navigate(pageIndex: number | string) {
   if (pageIndex < 1) return;
   if (pageIndex === '...') return;
 
-  window.scrollTo(0, props.scrollTo.offsetTop - 300);
-  router.push({ query: { page: pageIndex } });
-}
+  if (!append) await smoothScroll(props.scrollTo, -200);
+  await router.push({ query: { page: pageIndex } });
 
-const category = inject<apiItemI>('category') as apiItemI;
-watch(() => route.query.page, () => {
   if (!route.query.page) return;
   store.commit('setCurrentPage', route.query.page);
-  store.dispatch('loadMovies', category);
-});
+
+  loading.value = true;
+  await store.dispatch('loadMovies', { category, append });
+  loading.value = false;
+}
 
 </script>
 
 <style lang="scss" scoped>
   .pagination {
-    margin: 30px 0;
+
+    &-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
   }
 
   .page-link {

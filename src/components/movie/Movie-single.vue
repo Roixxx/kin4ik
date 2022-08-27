@@ -23,8 +23,12 @@
       </div>
 
       <div class="my-3">
-        <MovieStaff :id="id" :film="movie.nameRu"/>
+        <StaffList :id="id" :film="movie.nameRu"/>
       </div>
+
+      <div class="my-3">
+        <MovieVideos :id="id"/>
+      </div>=
     </div>
   </div>
 </template>
@@ -38,7 +42,8 @@ import { IMovie } from '@/types/movie';
 import MovieRating from '@/components/movie/Movie-rating.vue';
 import ReadMore from '@/components/Readmore.vue';
 import useFilmLength from '@/use/FilmLenght';
-import MovieStaff from '@/components/staff/Staff-list.vue';
+import StaffList from '@/components/staff/Staff-list.vue';
+import MovieVideos from '@/components/movie/Movie-videos.vue';
 
 const route = useRoute();
 const { deviceType } = useDevice();

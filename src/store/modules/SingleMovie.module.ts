@@ -17,6 +17,7 @@ interface StaffI {
 export default class SingleMovie extends VuexModule {
   movie: MovieI | null = null;
   staff: StaffI | null = null;
+  videos = null;
 
   get getMovie() {
     return this.movie;
@@ -24,6 +25,10 @@ export default class SingleMovie extends VuexModule {
 
   get getStaff() {
     return this.staff;
+  }
+
+  get getVideos() {
+    return this.videos;
   }
 
   @Mutation
@@ -36,6 +41,11 @@ export default class SingleMovie extends VuexModule {
     this.staff = staff;
   }
 
+  @Mutation
+  setVideos(videos: any) {
+    this.videos = videos;
+  }
+
   @Action({ rawError: true, commit: 'setMovie' })
   async loadMovie(id: number) {
     const url = Api.singleMovie.main.url + id;
@@ -45,6 +55,12 @@ export default class SingleMovie extends VuexModule {
   @Action({ rawError: true, commit: 'setStaff' })
   async loadStaff(id: number) {
     const url = `${Api.singleMovie.staff.url}?filmId=${id}`;
+    return UseFetchData(url);
+  }
+
+  @Action({ rawError: true, commit: 'setVideos' })
+  async loadVideos(id: number) {
+    const url = `${Api.singleMovie.videos.url}/${id}`;
     return UseFetchData(url);
   }
 }

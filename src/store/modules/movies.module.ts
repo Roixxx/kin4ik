@@ -28,21 +28,27 @@ export default class moviesModule extends VuexModule {
   }
 
   @Mutation
-  setMovies(data: dataI) {
-    this.moviesList = data.films || data.items;
-    this.pagesCount = data.pagesCount || data.totalPages;
+  updateMovies(payload: { data: dataI, append: boolean }) {
+    const movies = payload.data.films || payload.data.items;
+
+    this.moviesList = payload.append ? this.moviesList.concat(movies) : movies;
+
+    this.pagesCount = payload.data.pagesCount || payload.data.totalPages;
   }
 
-  @Action({ commit: 'setMovies' })
-  async loadMovies(payload: apiItemI) {
+  @Action({ commit: 'updateMovies' })
+  async loadMovies(payload: {category: apiItemI, append: boolean}) {
     const page = store.getters.currentPage;
-    const { query } = payload;
-    let { url } = payload;
+    const { query } = payload.category;
+    const { append } = payload;
+    let { url } = payload.category;
 
     url += `?page=${page}`;
 
     if (query) url += `&${query}`;
 
-    return UseFetchData(url);
+    const data = await UseFetchData(url, { loading: !append });
+
+    return ({ data, append });
   }
 }

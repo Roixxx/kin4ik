@@ -31,7 +31,7 @@ const page = route.query.page || 1;
 store.commit('setCurrentPage', page);
 const category = inject<apiItemI>('category') as apiItemI;
 
-store.dispatch('loadMovies', category);
+store.dispatch('loadMovies', { category });
 const movies = computed(() => store.getters.movies);
 </script>
 

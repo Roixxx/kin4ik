@@ -7,13 +7,13 @@ interface apiItemI {
   query?: string,
 }
 
-interface apiI {
-  [someKey: string]: {
-    [someKey: string]: apiItemI
-  }
-}
+// interface apiI {
+//   [someKey: string]: {
+//     [someKey: string]: apiItemI
+//   }
+// }
 
-const Api: apiI = {
+const Api = {
 
   movies: {
     top250: {
@@ -23,7 +23,7 @@ const Api: apiI = {
     popular: {
       url: `${entryV2}/films/`,
       title: 'Популярыне фильмы',
-      query: 'type=FILM',
+      query: 'type=FILM&order=NUM_VOTE',
     },
     singleMovie: {
       url: `${entryV2}/films/`,
@@ -37,6 +37,10 @@ const Api: apiI = {
 
     staff: {
       url: `${entry}/staff/`,
+    },
+
+    videos: {
+      url: `${entry}/vrazrabotke/`,
     },
   },
 };
