@@ -60,7 +60,8 @@
       "no-param-reassign": "off",
       "no-console": "off",
       "import/no-cycle": "off",
-      "linebreak-style": 0
+      "linebreak-style": 0,
+	  "vuejs-accessibility/label-has-for": "off"
     }
   },
   "browserslist": [

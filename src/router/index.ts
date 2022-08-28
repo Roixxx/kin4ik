@@ -4,9 +4,10 @@ import Top250View from '../views/Top250View.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/:page?',
+    path: '/:page?:countries?',
     name: 'home',
     component: HomeView,
+    props: true,
   },
   {
     path: '/movies/top250/:page?',

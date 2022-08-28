@@ -25,9 +25,6 @@ const Api = {
       title: 'Популярыне фильмы',
       query: 'type=FILM&order=NUM_VOTE',
     },
-    singleMovie: {
-      url: `${entryV2}/films/`,
-    },
   },
 
   singleMovie: {
@@ -42,6 +39,10 @@ const Api = {
     videos: {
       url: `${entry}/vrazrabotke/`,
     },
+  },
+
+  filters: {
+    url: `${entryV2}/films/filters/`,
   },
 };
 

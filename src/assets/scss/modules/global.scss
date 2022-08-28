@@ -18,7 +18,7 @@ a {
 
 aside {
   position: sticky;
-  top: 15px;
+  top: 84px;
 }
 
 img {
@@ -26,4 +26,18 @@ img {
   width: 100%;
   object-position: center;
   object-fit: cover;
+}
+
+div, span {
+	&::-webkit-scrollbar-track {
+		background: #e6eaeb;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: #cfcfd4;
+	}
+
+	&::-webkit-scrollbar {
+		width: 2px;
+	}
 }

@@ -21,14 +21,14 @@ import TheLoading from '@/components/TheLoading.vue';
 
 import { useStore } from 'vuex';
 import { computed, inject, ref } from 'vue';
-import { useRoute } from 'vue-router';
+// import { useRoute } from 'vue-router';
 import { apiItemI } from '@/use/Api';
 
-const route = useRoute();
+// const route = useRoute();
 const store = useStore();
 const list = ref();
-const page = route.query.page || 1;
-store.commit('setCurrentPage', page);
+// const page = route.query.page || 1;
+// store.commit('setCurrentPage', page);
 const category = inject<apiItemI>('category') as apiItemI;
 
 store.dispatch('loadMovies', { category });

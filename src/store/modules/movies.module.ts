@@ -6,6 +6,7 @@ import {
 import UseFetchData from '@/use/FetchData';
 import store from '@/store';
 import { apiItemI } from '@/use/Api';
+import router from '@/router/index';
 
 interface dataI {
   films: [],
@@ -38,14 +39,13 @@ export default class moviesModule extends VuexModule {
 
   @Action({ commit: 'updateMovies' })
   async loadMovies(payload: {category: apiItemI, append: boolean}) {
-    const page = store.getters.currentPage;
-    const { query } = payload.category;
     const { append } = payload;
+    const { query } = payload.category;
     let { url } = payload.category;
 
-    url += `?page=${page}`;
+    url += window.location.search;
 
-    if (query) url += `&${query}`;
+    if (query) url += (window.location.search ? '&' : '?') + query;
 
     const data = await UseFetchData(url, { loading: !append });
 

@@ -9,7 +9,11 @@
     <div class="d-none d-lg-block col"></div>
 
     <div class="col-lg-3">
-      <aside>Фильтры</aside>
+      <aside>
+        <Suspense>
+          <MovieFilter/>
+        </Suspense>
+      </aside>
     </div>
 
   </div>
@@ -19,6 +23,7 @@
 import MovieListing from '@/components/movie/Movie-lisiting.vue';
 import { inject } from 'vue';
 import { apiItemI } from '@/use/Api';
+import MovieFilter from '@/components/movie/filters/Movie-filter.vue';
 
 const category = inject('category') as apiItemI;
 
