@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/assets/scss/index.scss';
+import '@vueform/slider/themes/default.css';
 import 'bootstrap';
 
 import { createApp } from 'vue';

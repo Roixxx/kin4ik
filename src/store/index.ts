@@ -14,17 +14,11 @@ const store = createStore({
     loading(state) {
       return state.loading;
     },
-    currentPage(state) {
-      return state.currentPage;
-    },
   },
 
   mutations: {
     toggleLoading(state) {
       state.loading = !state.loading;
-    },
-    setCurrentPage(state, page) {
-      state.currentPage = page;
     },
   },
   modules: { moviesModule, SingleMovie },

@@ -81,9 +81,6 @@ async function navigate(pageIndex: number | string, append = false) {
   if (!append) await smoothScroll(props.scrollTo, -200);
   await router.push({ query: { page: pageIndex } });
 
-  if (!route.query.page) return;
-  store.commit('setCurrentPage', route.query.page);
-
   loading.value = true;
   await store.dispatch('loadMovies', { category, append });
   loading.value = false;
