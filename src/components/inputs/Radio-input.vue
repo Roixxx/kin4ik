@@ -5,19 +5,18 @@
            :name="name"
            :id="id"
            :value="value"
-           v-model="model">
+           @input="$emit('update:modelValue', $event.target.value)">
     <label class="form-check-label" :for="id">{{ label }}</label>
   </div>
-  {{model}}
+
 </template>
 
 <script lang="ts" setup>
 import { defineProps } from 'vue';
 
-const props = defineProps<{
+defineProps<{
   name: string,
   id: string,
   value: string | number,
-  label: string,
-  model: string}>();
+  label: string}>();
 </script>

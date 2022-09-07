@@ -4,9 +4,7 @@ import {
 } from 'vuex-module-decorators';
 
 import UseFetchData from '@/use/FetchData';
-import store from '@/store';
 import { apiItemI } from '@/use/Api';
-import router from '@/router/index';
 
 interface dataI {
   films: [],

@@ -44,7 +44,7 @@ import {
   computed, defineProps, inject, ref,
 } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
+import { LocationQueryValue, useRoute, useRouter } from 'vue-router';
 import PaginationRender from '@/use/PaginationRender';
 import useDevice from '@/use/Device';
 import { apiItemI } from '@/use/Api';
@@ -79,7 +79,9 @@ async function navigate(pageIndex: number | string, append = false) {
   if (pageIndex === '...') return;
 
   if (!append) await smoothScroll(props.scrollTo, -200);
-  await router.push({ query: { page: pageIndex } });
+  const query = { ...route.query };
+  query.page = pageIndex as LocationQueryValue;
+  await router.push({ query });
 
   loading.value = true;
   await store.dispatch('loadMovies', { category, append });

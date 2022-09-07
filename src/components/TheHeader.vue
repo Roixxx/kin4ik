@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row align-items-center">
 
-        <div class="col-2">
+        <div class="col-3 col-md-2">
           <router-link class="text-light header__title fs-3" to="/">Kin4ik</router-link>
         </div>
         <div class="col">
@@ -46,6 +46,14 @@ export default defineComponent({
       position: relative;
       transition: opacity 0.3s;
 
+      @include sm {
+        font-size: 14px;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
       &:hover {
         opacity: 0.7;
       }
@@ -57,7 +65,6 @@ export default defineComponent({
         bottom: -6px;
         width: 100%;
         height: 3px;
-        transform: skew(300deg);
         background: rgba(238, 111, 87, 0.5);
         z-index: -1;
       }

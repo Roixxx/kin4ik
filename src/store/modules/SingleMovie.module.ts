@@ -41,10 +41,10 @@ export default class SingleMovie extends VuexModule {
     this.staff = staff;
   }
 
-  @Mutation
-  setVideos(videos: any) {
-    this.videos = videos;
-  }
+  // @Mutation
+  // setVideos(videos: any) {
+  //   this.videos = videos;
+  // }
 
   @Action({ rawError: true, commit: 'setMovie' })
   async loadMovie(id: number) {
