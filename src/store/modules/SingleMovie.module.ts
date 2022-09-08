@@ -41,10 +41,10 @@ export default class SingleMovie extends VuexModule {
     this.staff = staff;
   }
 
-  // @Mutation
-  // setVideos(videos: any) {
-  //   this.videos = videos;
-  // }
+  @Mutation
+  setVideos(videos: any) {
+    this.videos = videos;
+  }
 
   @Action({ rawError: true, commit: 'setMovie' })
   async loadMovie(id: number) {
@@ -60,7 +60,7 @@ export default class SingleMovie extends VuexModule {
 
   @Action({ rawError: true, commit: 'setVideos' })
   async loadVideos(id: number) {
-    const url = `${Api.singleMovie.videos.url}/${id}`;
+    const url = `${Api.singleMovie.main.url}${id}/videos`;
     return UseFetchData(url);
   }
 }

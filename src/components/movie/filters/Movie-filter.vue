@@ -93,7 +93,7 @@ const filters = ref([
     value: 'genre',
     data: prettyData(filtersData.genres),
     type: 'RadioInput',
-    model: route.query.genres,
+    model: route.query.genres || null,
   },
   {
     name: 'Страна',
@@ -101,7 +101,7 @@ const filters = ref([
     value: 'country',
     data: filtersData.countries.slice(0, 35),
     type: 'RadioInput',
-    model: null,
+    model: route.query.countries || null,
   },
   {
     name: 'Год',
@@ -112,7 +112,12 @@ const filters = ref([
     min: 1950,
     max: new Date().getFullYear(),
     modelDefault: [1980, new Date().getFullYear()],
-    model: [1980, new Date().getFullYear()],
+    model: (() => {
+      if (route.query.yearFrom) {
+        return [route.query.yearFrom, route.query.yearTo];
+      }
+      return [1980, new Date().getFullYear()];
+    })(),
   },
   {
     name: 'Рейтинг',
@@ -123,7 +128,7 @@ const filters = ref([
     min: 2,
     max: 10,
     modelDefault: [2, 10],
-    model: [2, 10],
+    model: route.query.ratingFrom ? [route.query.ratingFrom, route.query.ratingTo] : [2, 10],
   },
 ]);
 
@@ -132,23 +137,18 @@ function resetAll() {
   filters.value.forEach((filter) => {
     filter.model = filter.modelDefault || null;
   });
-
-  const checked = document.querySelectorAll('#filtersAcc input[type="radio"]:checked');
-  checked.forEach((input) => {
-    (input as HTMLInputElement).checked = false;
-  });
 }
 
 // Активные фильтры
 const activeFilters = computed(() => filters.value.some((filter) => {
-  if (filter.type === 'Range') {
+  if (filter.type === 'Range' && Array.isArray(filter.model)) {
     return filter.modelDefault?.join('') !== filter.model?.join('');
   }
   return filter.model;
 }));
 
 function createFilterQuery() {
-  const config: { [key: string]: number } = {};
+  const config: { [key: string]: any } = {};
 
   filters.value.forEach((f) => {
     if (!f.model) return;

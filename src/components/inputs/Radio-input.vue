@@ -5,6 +5,7 @@
            :name="name"
            :id="id"
            :value="value"
+           :checked="modelValue == value"
            @input="$emit('update:modelValue', $event.target.value)">
     <label class="form-check-label" :for="id">{{ label }}</label>
   </div>
@@ -18,5 +19,6 @@ defineProps<{
   name: string,
   id: string,
   value: string | number,
-  label: string}>();
+  label: string,
+  modelValue: string | null }>();
 </script>

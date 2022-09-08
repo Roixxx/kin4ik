@@ -35,10 +35,6 @@ const Api = {
     staff: {
       url: `${entry}/staff/`,
     },
-
-    videos: {
-      url: `${entry}/vrazrabotke/`,
-    },
   },
 
   filters: {

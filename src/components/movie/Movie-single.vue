@@ -22,13 +22,14 @@
         <div v-if="slogan">Слоган: {{ slogan }}</div>
       </div>
 
-      <div class="my-3">
+      <SectionBlock title="Актёры">
         <StaffList :id="id" :film="movie.nameRu"/>
-      </div>
+      </SectionBlock>
 
-      <div class="my-3">
+      <SectionBlock title="Видео о фильме">
         <MovieVideos :id="id"/>
-      </div>=
+      </SectionBlock>
+
     </div>
   </div>
 </template>
@@ -39,11 +40,12 @@ import { useStore } from 'vuex';
 import { computed, ComputedRef } from 'vue';
 import useDevice from '@/use/Device';
 import { IMovie } from '@/types/movie';
-import MovieRating from '@/components/movie/Movie-rating.vue';
+import MovieRating from '@/components/movie/ui/Movie-rating.vue';
 import ReadMore from '@/components/Readmore.vue';
 import useFilmLength from '@/use/FilmLenght';
 import StaffList from '@/components/staff/Staff-list.vue';
 import MovieVideos from '@/components/movie/Movie-videos.vue';
+import SectionBlock from '@/components/Section-block.vue';
 
 const route = useRoute();
 const { deviceType } = useDevice();

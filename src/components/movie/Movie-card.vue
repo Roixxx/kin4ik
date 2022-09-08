@@ -16,7 +16,8 @@
             {{ name }}
           </router-link>
 
-          <div class="mb-1 movie-card__geners">{{ genre }}, {{ country }}</div>
+          <div class="mb-1 movie-card__text">Жанр: {{ genres }}</div>
+          <div class="mb-1 movie-card__text">Страна: {{ countries }}</div>
           <div class="movie-card__year">
             {{ year }}<span v-if="props.movie.filmLength">, {{ props.movie.filmLength }}</span>
           </div>
@@ -38,7 +39,11 @@ import {
 import { useStore } from 'vuex';
 import TheLoading from '@/components/TheLoading.vue';
 import { IMovie } from '@/types/movie';
-import MovieRating from '@/components/movie/Movie-rating.vue';
+import MovieRating from '@/components/movie/ui/Movie-rating.vue';
+
+function prettyData(data: [{[key: string]: string}]) {
+  return data.map((item) => Object.values(item)).flat().join(', ');
+}
 
 const props = defineProps<{ movie: IMovie }>();
 const store = useStore();
@@ -49,8 +54,8 @@ const movie = movieItem.value;
 const name = movie.nameRu || movie.nameEn || movie.nameOriginal;
 const id = movie.filmId || movie.kinopoiskId;
 const rating = +movie.rating || +movie.ratingKinopoisk;
-const { country } = movie.countries[0] || '';
-const { genre } = movie.genres[0] || '';
+const countries = prettyData(movie.countries) || '';
+const genres = prettyData(movie.genres) || '';
 const { posterUrlPreview, year } = movie;
 
 const loading = computed(() => store.getters.loading);
@@ -70,7 +75,7 @@ const loading = computed(() => store.getters.loading);
     width: 100%;
   }
 
-  &__geners {
+  &__text {
     font-size: 16px;
 
     @include sm {
