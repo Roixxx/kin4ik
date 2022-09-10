@@ -1,4 +1,5 @@
 <template>
+  <button class="btn d-inline btn-secondary mb-4" @click="router.back()">&laquo; Назад</button>
   <div class="row movie gx-5">
     <div class="col-md-3">
       <div class="movie__img-holder">
@@ -31,11 +32,19 @@
       </SectionBlock>
 
     </div>
+
+    <div class="col">
+      <SectionBlock title="Похожие фильмы">
+        <SliderBlock>
+          <MoviePlate/>
+        </SliderBlock>
+      </SectionBlock>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { computed, ComputedRef } from 'vue';
 import useDevice from '@/use/Device';
@@ -46,8 +55,12 @@ import useFilmLength from '@/use/FilmLenght';
 import StaffList from '@/components/staff/Staff-list.vue';
 import MovieVideos from '@/components/movie/Movie-videos.vue';
 import SectionBlock from '@/components/Section-block.vue';
+import SliderBlock from '@/components/Slider-block.vue';
+import MoviePlate from '@/components/movie/Movie-plate.vue';
 
 const route = useRoute();
+const router = useRouter();
+
 const { deviceType } = useDevice();
 const id = Number(route.params.id);
 const store = useStore();
@@ -77,6 +90,7 @@ const img = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+
 .movie {
   &__img-holder {
     justify-content: center;

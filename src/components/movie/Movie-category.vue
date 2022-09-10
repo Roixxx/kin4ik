@@ -3,7 +3,7 @@
 
     <h2 class="mb-3 mb-lg-4">{{ category.title }}</h2>
     <div class="col-lg-8">
-      <button @click="openFilters" class="btn btn-primary w-100 mb-4 d-lg-none">
+      <button @click="openFilters" class="btn btn-primary w-100 mb-4 d-lg-none" v-if="filters">
         Фильтры
       </button>
       <MovieListing/>
@@ -11,7 +11,7 @@
 
     <div class="d-none d-lg-block col"></div>
 
-    <div class="col-lg-3">
+    <div class="col-lg-3" v-if="filters">
       <Suspense>
         <MovieFilter :isOpened="filtersOpened" @close="closeFilters"/>
       </Suspense>
@@ -22,12 +22,17 @@
 
 <script lang="ts" setup>
 import MovieListing from '@/components/movie/Movie-lisiting.vue';
-import { inject, ref } from 'vue';
+import { defineProps, inject, ref } from 'vue';
 import { apiItemI } from '@/use/Api';
 import MovieFilter from '@/components/movie/filters/Movie-filter.vue';
 
+defineProps<{
+  filters: boolean,
+}>();
+
 const filtersOpened = ref(false);
 const category = inject('category') as apiItemI;
+console.log(category);
 
 function openFilters() {
   filtersOpened.value = true;

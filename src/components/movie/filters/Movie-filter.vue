@@ -180,7 +180,7 @@ watch(filters, async () => {
 <style lang="scss" scoped>
 .filter {
 
-  @include lg {
+  @include md {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -203,7 +203,7 @@ watch(filters, async () => {
     opacity: 0.8;
     pointer-events: none;
 
-    @include lg {
+    @include md {
       opacity: 1;
       pointer-events: initial;
     }
@@ -242,7 +242,7 @@ watch(filters, async () => {
   &__range {
     margin-top: 32px;
 
-    @include lg {
+    @include md {
       padding: 0 10px;
     }
   }
@@ -256,7 +256,7 @@ watch(filters, async () => {
   }
 
   .accordion-item {
-    @include lg {
+    @include md {
       border-radius: 0;
       border-right: 0;
       border-left: 0;

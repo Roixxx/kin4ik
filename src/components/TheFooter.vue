@@ -13,8 +13,14 @@
         </div>
         <div class="col-lg-3">
           <div class="footer__dev">
-            Сайт разработан:
-            <a class="text-secondary" target="_blank" href="https://github.com/Roixxx">Roixxx</a>
+            <div>Сайт разработан:
+              <a class="text-secondary" target="_blank" href="https://github.com/Roixxx">Roixxx</a>
+            </div>
+            <div>Api:
+              <a class="text-secondary"  href="https://kinopoiskapiunofficial.tech/" target="_blank">
+                Kinopoisk Api Unofficial
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -25,6 +31,7 @@
 
 <style lang="scss">
 .footer {
+  margin-top: auto;
 
   a {
     color: white;
@@ -46,8 +53,11 @@
   }
 
   &__dev {
+    display: flex;
+    flex-wrap: wrap;
     font-size: 14px;
     color: white;
+    gap: 4px;
 
     a {
       color: rgba(238, 111, 87, 0.5) !important;

@@ -1,5 +1,5 @@
 <template>
-  <MoviesCategory/>
+  <MoviesCategory :filters="true"/>
 </template>
 
 <script lang="ts" setup>

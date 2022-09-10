@@ -1,11 +1,11 @@
 <template>
-  <div  v-for="(video, i) in videos" :key="i">
-    <div class="videos">
-      <iframe width="330" height="200"
-              :title="video.name"
-              :src="prettyUrl(video.url)"
-              allowfullscreen>
-      </iframe>
+  <div class="videos">
+    <div v-for="(video, i) in videos" :key="i">
+        <iframe class="videos__iframe"
+                :title="video.name"
+                :src="prettyUrl(video.url)"
+                allowfullscreen>
+        </iframe>
     </div>
   </div>
 </template>
@@ -47,6 +47,11 @@ function prettyUrl(url: string) {
 <style scoped lang="scss">
 .videos {
   display: flex;
-  gap: 32px;
+  gap: 24px;
+
+  &__iframe {
+    max-width: 300px;
+    height: 100%;
+  }
 }
 </style>

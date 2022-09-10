@@ -15,7 +15,7 @@ defineProps<{title: string}>();
 
 <style lang="scss" scoped>
 .section {
-  margin-bottom: 24px;
+  margin-bottom: 48px;
 
   &__title {
     font-weight: 500;
