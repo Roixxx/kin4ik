@@ -7,12 +7,6 @@ interface apiItemI {
   query?: string,
 }
 
-// interface apiI {
-//   [someKey: string]: {
-//     [someKey: string]: apiItemI
-//   }
-// }
-
 const Api = {
 
   movies: {

@@ -27,7 +27,10 @@ import { apiItemI } from '@/use/Api';
 import MovieFilter from '@/components/movie/filters/Movie-filter.vue';
 
 defineProps<{
-  filters: boolean,
+  filters: {
+    type: boolean,
+    required: false
+  },
 }>();
 
 const filtersOpened = ref(false);

@@ -15,27 +15,11 @@
 import { useStore } from 'vuex';
 import { defineProps } from 'vue';
 
-interface videoI {
-  name: string,
-  site: string,
-  url: string,
-}
-
 const props = defineProps< {id: number} >();
 const store = useStore();
 
-const data = await store.dispatch('SingleMovie/loadVideos', props.id);
-const videosWhiteList = ['фрагмент', 'фан-ролик', 'промо-ролик', 'телевизионный трейлер',
-  'русский ТВ-ролик', 'международный трейлер', 'трейлер (русский язык)', 'русский тв-ролик'];
-
-const videos = data.items.filter((v: videoI) => {
-  const name = v.name.toLowerCase().trim();
-  const yt = v.site === 'YOUTUBE';
-  const inWhiteList = videosWhiteList.includes(name);
-  const trailer = name === 'трейлер' || name === 'тизер';
-
-  return yt && (inWhiteList || trailer);
-});
+await store.dispatch('SingleMovie/loadVideos', props.id);
+const videos = store.getters['SingleMovie/getVideos'];
 
 function prettyUrl(url: string) {
   return url.replace('/v/', '/embed/')

@@ -38,14 +38,14 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import TheLoading from '@/components/TheLoading.vue';
-import { IMovie } from '@/types/movie';
+import { MovieI } from '@/types/movie';
 import MovieRating from '@/components/movie/ui/Movie-rating.vue';
 
 function prettyData(data: [{[key: string]: string}]) {
   return data.map((item) => Object.values(item)).flat().join(', ');
 }
 
-const props = defineProps<{ movie: IMovie }>();
+const props = defineProps<{ movie: MovieI }>();
 const store = useStore();
 
 const movieItem = ref(props.movie);

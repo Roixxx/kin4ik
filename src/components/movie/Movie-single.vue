@@ -27,7 +27,7 @@
         <StaffList :id="id" :film="movie.nameRu"/>
       </SectionBlock>
 
-      <SectionBlock title="Видео о фильме">
+      <SectionBlock v-if="videos?.length"  title="Видео о фильме">
         <MovieVideos :id="id"/>
       </SectionBlock>
 
@@ -35,9 +35,7 @@
 
     <div class="col">
       <SectionBlock title="Похожие фильмы">
-        <SliderBlock>
-          <MoviePlate/>
-        </SliderBlock>
+        <MovieSimilar :id="id"/>
       </SectionBlock>
     </div>
   </div>
@@ -48,15 +46,14 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { computed, ComputedRef } from 'vue';
 import useDevice from '@/use/Device';
-import { IMovie } from '@/types/movie';
+import { MovieI } from '@/types/movie';
 import MovieRating from '@/components/movie/ui/Movie-rating.vue';
 import ReadMore from '@/components/Readmore.vue';
 import useFilmLength from '@/use/FilmLenght';
 import StaffList from '@/components/staff/Staff-list.vue';
 import MovieVideos from '@/components/movie/Movie-videos.vue';
 import SectionBlock from '@/components/Section-block.vue';
-import SliderBlock from '@/components/Slider-block.vue';
-import MoviePlate from '@/components/movie/Movie-plate.vue';
+import MovieSimilar from '@/components/movie/Movie-similar.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -66,16 +63,14 @@ const id = Number(route.params.id);
 const store = useStore();
 await store.dispatch('SingleMovie/loadMovie', id);
 
-const movieItem: ComputedRef<IMovie> = computed(() => store.getters['SingleMovie/getMovie']);
-
+const movieItem: ComputedRef<MovieI> = computed(() => store.getters['SingleMovie/getMovie']);
 const movie = movieItem.value;
-
 const rating = +movie.rating || +movie.ratingKinopoisk;
 const geners = movie.genres.map((el) => el.genre).join(', ');
 const country = movie.countries.map((el) => el.country).join(', ') || '';
 const { description, slogan } = movie;
-
 const filmLength = useFilmLength(+movie.filmLength);
+const videos = computed(() => store.getters['SingleMovie/getVideos']);
 
 const img = computed(() => {
   if (deviceType.value === 'desktop' || !movie.coverUrl) {

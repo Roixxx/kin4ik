@@ -1,4 +1,4 @@
-interface IMovie {
+interface MovieI {
   countries: [{ country: string }],
   genres: [{ genre: string }],
   rating: number,
@@ -16,4 +16,20 @@ interface IMovie {
   slogan: string,
 }
 
-export { IMovie };
+interface VideoI {
+  name: string,
+  site: string,
+  url: string,
+}
+
+interface similarMovie {
+  filmId: number,
+  nameRu: string,
+  nameEn: string,
+  nameOriginal: string,
+  posterUrl: string,
+  posterUrlPreview: string,
+  relationType: string
+}
+
+export { MovieI, VideoI, similarMovie };

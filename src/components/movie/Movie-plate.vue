@@ -1,14 +1,21 @@
 <template>
   <div class="movie-plate">
     <div class="movie-plate__img">
-      <img src="https://kinopoiskapiunofficial.tech/images/posters/kp/458.jpg" alt="">
+      <img :src="movie.posterUrl" :alt="movie.nameRu">
     </div>
-    <router-link to="/" class="movie-plate__link stretched-link">Северное сияние. </router-link>
-    <div>Corpse Bride</div>
+    <router-link :to="{name: 'movie', params: {id: movie.filmId}}"
+                 class="movie-plate__link stretched-link">{{ movie.nameRu }}</router-link>
+    <div>{{ movie.nameEn }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { similarMovie } from '@/types/movie';
+import { defineProps } from 'vue';
+
+defineProps<{
+  movie: similarMovie
+}>();
 
 </script>
 
@@ -23,15 +30,26 @@
     }
   }
   &__img {
-    background: #000;
     overflow: hidden;
-
     max-height: 300px;
     margin-bottom: 8px;
+    position: relative;
+    border-radius: 8px;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 1px;
+      bottom: 0;
+      background: black;
+      z-index: -1;
+    }
 
     img {
       width: 100%;
-      opacity: 0.9;
+      opacity: 1;
       font-size: 16px;
       font-weight: 500;
       transition: opacity 0.3s;

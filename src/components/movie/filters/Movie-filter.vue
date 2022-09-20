@@ -72,7 +72,7 @@ import RadioInput from '@/components/inputs/Radio-input.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-const props = defineProps<{isOpened: boolean}>();
+defineProps<{isOpened: boolean}>();
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
@@ -153,7 +153,7 @@ function createFilterQuery() {
   filters.value.forEach((f) => {
     if (!f.model) return;
 
-    if (f.type === 'Range') {
+    if (f.type === 'Range' && Array.isArray(f.model)) {
       if (f.modelDefault?.join('') === f.model?.join('')) return;
       config[`${f.name_en}From`] = f.model[0];
       config[`${f.name_en}To`] = f.model[1];
