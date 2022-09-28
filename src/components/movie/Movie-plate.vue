@@ -1,7 +1,7 @@
 <template>
   <div class="movie-plate">
     <div class="movie-plate__img">
-      <img :src="movie.posterUrl" :alt="movie.nameRu">
+      <img :src="movie.posterUrl" :alt="movie.nameRu" width="220" height="300">
     </div>
     <router-link :to="{name: 'movie', params: {id: movie.filmId}}"
                  class="movie-plate__link stretched-link">{{ movie.nameRu }}</router-link>
@@ -27,6 +27,7 @@ defineProps<{
   &:hover {
     .movie-plate__img img {
       opacity: 0.9;
+      transform: scale(1.05);
     }
   }
   &__img {
@@ -34,25 +35,15 @@ defineProps<{
     max-height: 300px;
     margin-bottom: 8px;
     position: relative;
-    border-radius: 8px;
-
-    &:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 1px;
-      bottom: 0;
-      background: black;
-      z-index: -1;
-    }
+    border-radius: 16px;
+    background: black;
 
     img {
       width: 100%;
       opacity: 1;
       font-size: 16px;
       font-weight: 500;
-      transition: opacity 0.3s;
+      transition: opacity 0.3s, transform 0.3s;
     }
   }
 

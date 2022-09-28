@@ -9,8 +9,11 @@
       <slot></slot>
     </swiper>
     <div class="swiper-button-prev">
+      <Svg name="left"/>
     </div>
-    <div class="swiper-button-next"></div>
+    <div class="swiper-button-next">
+<!--      <Svg name="right" fill="red"/>-->
+    </div>
   </div>
 
 </template>
@@ -19,6 +22,7 @@
 import { Swiper } from 'swiper/vue';
 import { Navigation } from 'swiper';
 import 'swiper/css';
+import Svg from '@/components/Svg.vue';
 
 const modules = [Navigation];
 const navigation = {
@@ -60,12 +64,38 @@ const navigation = {
 }
 
 .swiper-button {
+
+  &-prev, &-next {
+    border-radius: 16px;
+    border: 1px solid #E6EAEB;
+    transition: border-color 0.3s;
+
+    svg {
+      fill: #3B4454;
+    }
+
+    &:hover {
+      border-color: #CFCFD4;
+      svg {
+        fill: #1C2230;
+      }
+    }
+
+  }
+
   &-prev {
     left: -22px;
   }
 
   &-next  {
     right: -20px;
+  }
+
+  &-disabled {
+    border-color: #E6EAEB !important;
+    svg {
+      fill: #CFCFD4 !important;
+    }
   }
 
 }
