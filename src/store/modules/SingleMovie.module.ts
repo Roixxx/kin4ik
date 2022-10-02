@@ -4,7 +4,7 @@ import {
 } from 'vuex-module-decorators';
 import UseFetchData from '@/use/FetchData';
 import { Api } from '@/use/Api';
-import { MovieI, VideoI, similarMovie } from '@/types/movie';
+import { MovieI, VideoI, similarMovie } from '@/types/types';
 
 interface StaffI {
   string: string,

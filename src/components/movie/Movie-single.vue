@@ -1,13 +1,13 @@
 <template>
   <button class="btn d-inline btn-secondary mb-4" @click="router.back()">&laquo; Назад</button>
-  <div class="row movie gx-5">
+  <div class="row movie">
     <div class="col-md-3">
       <div class="movie__img-holder">
         <div class="preview-blur" :style="img.previewBg" v-if="img.preview"></div>
         <img :src="img.src" :class="{preview: img.preview}" :alt="movie.nameRu">
       </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-9 ps-md-3 ps-lg-5">
 
       <div class="movie__title-holder mt-4 mt-md-0">
         <h1 class="movie__title">{{movie.nameRu}} ({{movie.year}})</h1>
@@ -45,8 +45,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { computed, ComputedRef } from 'vue';
-import useDevice from '@/use/Device';
-import { MovieI } from '@/types/movie';
+import { MovieI } from '@/types/types';
 import MovieRating from '@/components/movie/ui/Movie-rating.vue';
 import ReadMore from '@/components/Readmore.vue';
 import useFilmLength from '@/use/FilmLenght';
@@ -58,7 +57,6 @@ import MovieSimilar from '@/components/movie/Movie-similar.vue';
 const route = useRoute();
 const router = useRouter();
 
-const { deviceType } = useDevice();
 const id = Number(route.params.id);
 const store = useStore();
 await store.dispatch('SingleMovie/loadMovie', id);
@@ -70,23 +68,21 @@ const geners = movie.genres.map((el) => el.genre).join(', ');
 const country = movie.countries.map((el) => el.country).join(', ') || '';
 const { description, slogan } = movie;
 const filmLength = useFilmLength(+movie.filmLength);
+
+await store.dispatch('SingleMovie/loadVideos', id);
 const videos = computed(() => store.getters['SingleMovie/getVideos']);
 
-const img = computed(() => {
-  if (deviceType.value === 'desktop' || !movie.coverUrl) {
-    return {
-      src: movie.posterUrlPreview,
-      preview: true,
-      previewBg: `background: linear-gradient(0deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.4)), url(${movie.posterUrlPreview})`,
-    };
-  }
-  return { src: movie.coverUrl };
-});
+const img = computed(() => ({
+  src: movie.posterUrlPreview,
+  preview: true,
+  previewBg: `background: linear-gradient(0deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.4)), url(${movie.posterUrlPreview})`,
+}));
 </script>
 
 <style lang="scss" scoped>
 
 .movie {
+
   &__img-holder {
     justify-content: center;
     display: flex;
@@ -102,7 +98,7 @@ const img = computed(() => {
         width: 100%;
 
         &.preview {
-          max-height: 300px;
+          max-height: 400px;
           width: auto;
         }
       }

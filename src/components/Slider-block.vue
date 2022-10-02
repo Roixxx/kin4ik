@@ -1,18 +1,21 @@
 <template>
   <div class="slider">
-    <swiper
+    <Swiper
       :space-between="30"
       slides-per-view="auto"
       :navigation="navigation"
       :modules="modules"
+      :allowTouchMove="touch"
+      @swiper="onSwiper"
+
     >
       <slot></slot>
-    </swiper>
-    <div class="swiper-button-prev">
+    </Swiper>
+    <div :class="`swiper-button-prev ${props.name}-prev`">
       <Svg name="left"/>
     </div>
-    <div class="swiper-button-next">
-<!--      <Svg name="right" fill="red"/>-->
+    <div :class="`swiper-button-next ${props.name}-next`">
+      <Svg name="right" fill="red"/>
     </div>
   </div>
 
@@ -20,22 +23,38 @@
 
 <script setup lang="ts">
 import { Swiper } from 'swiper/vue';
+import { defineProps } from 'vue';
 import { Navigation } from 'swiper';
 import 'swiper/css';
 import Svg from '@/components/Svg.vue';
 
+const props = defineProps({
+  touch: { type: Boolean, default: true },
+  name: String,
+});
+
 const modules = [Navigation];
 const navigation = {
-  prevEl: '.swiper-button-prev',
-  nextEl: '.swiper-button-next',
+  prevEl: `.swiper-button-prev.${props.name}-prev`,
+  nextEl: `.swiper-button-next.${props.name}-next`,
 };
 
+const onSwiper = (swiper: typeof Swiper) => {
+  if (swiper.width >= swiper.virtualSize) {
+    swiper.navigation.nextEl.remove();
+    swiper.navigation.prevEl.remove();
+  }
+};
 </script>
 
 <style lang="scss">
 
 .slider {
   position: relative;
+
+  @include sm {
+    margin-right: -12px;
+  }
 }
 
 .swiper-slide {
@@ -57,6 +76,7 @@ const navigation = {
   position: absolute;
   transform: translateY(-50%);
   top: 50%;
+  cursor: pointer;
 
   &:after {
     content: none;
@@ -69,6 +89,10 @@ const navigation = {
     border-radius: 16px;
     border: 1px solid #E6EAEB;
     transition: border-color 0.3s;
+
+    @include md {
+      display: none;
+    }
 
     svg {
       fill: #3B4454;
@@ -92,6 +116,7 @@ const navigation = {
   }
 
   &-disabled {
+    cursor: default;
     border-color: #E6EAEB !important;
     svg {
       fill: #CFCFD4 !important;

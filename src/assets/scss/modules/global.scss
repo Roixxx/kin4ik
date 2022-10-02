@@ -41,7 +41,7 @@ img {
   fill: black;
 }
 
-div, span {
+.scroll-style {
 	&::-webkit-scrollbar-track {
 		background: #e6eaeb;
 	}
@@ -52,6 +52,7 @@ div, span {
 
 	&::-webkit-scrollbar {
 		width: 2px;
+    height: 2px;
 	}
 }
 

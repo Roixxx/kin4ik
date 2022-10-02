@@ -1,5 +1,5 @@
 <template>
-  <SliderBlock>
+  <SliderBlock name="similar">
     <swiper-slide v-for="movie in similarMovies" :key="movie.nameEn">
       <MoviePlate :movie="movie"/>
     </swiper-slide>

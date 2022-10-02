@@ -4,7 +4,7 @@
     <div class="modal fade" :id="props.id" tabindex="-1"
          :aria-labelledby="props.title" aria-hidden="true">
 
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
           <div class="modal-header">
 

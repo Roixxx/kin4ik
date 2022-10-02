@@ -1,24 +1,23 @@
 <template>
-  <div class="videos">
-    <div v-for="(video, i) in videos" :key="i">
-        <iframe class="videos__iframe"
-                :title="video.name"
-                :src="prettyUrl(video.url)"
-                allowfullscreen>
-        </iframe>
-    </div>
-  </div>
+  <SliderBlock name="videos" :touch="false" class="videos">
+    <swiper-slide v-for="(video, i) in videos" :key="i">
+      <iframe class="videos__iframe"
+              :title="video.name"
+              :src="prettyUrl(video.url)"
+              allowfullscreen>
+      </iframe>
+    </swiper-slide>
+  </SliderBlock>
 </template>
 
 <script setup lang="ts">
 
+import { SwiperSlide } from 'swiper/vue';
 import { useStore } from 'vuex';
-import { defineProps } from 'vue';
+import SliderBlock from '@/components/Slider-block.vue';
 
-const props = defineProps< {id: number} >();
 const store = useStore();
 
-await store.dispatch('SingleMovie/loadVideos', props.id);
 const videos = store.getters['SingleMovie/getVideos'];
 
 function prettyUrl(url: string) {
@@ -28,14 +27,32 @@ function prettyUrl(url: string) {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .videos {
-  display: flex;
-  gap: 24px;
+
+  &-prev, &-next {
+    display: flex !important;
+  }
+
+  @include md {
+    &-prev {
+      left: -5px;
+    }
+    &-next {
+      right: 5px;
+    }
+  }
 
   &__iframe {
-    max-width: 300px;
-    height: 100%;
+    user-select: none;
+    width: 400px;
+    height: 220px;
+
+    @include sm {
+      width: 300px;
+      height: 180px;
+    }
   }
+
 }
 </style>

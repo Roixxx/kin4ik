@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { similarMovie } from '@/types/movie';
+import { similarMovie } from '@/types/types';
 import { defineProps } from 'vue';
 
 defineProps<{

@@ -38,7 +38,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import TheLoading from '@/components/TheLoading.vue';
-import { MovieI } from '@/types/movie';
+import { MovieI } from '@/types/types';
 import MovieRating from '@/components/movie/ui/Movie-rating.vue';
 
 function prettyData(data: [{[key: string]: string}]) {

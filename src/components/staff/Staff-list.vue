@@ -1,27 +1,22 @@
 <template>
-  <div class="staff overflow-auto p-4">
-    <div class="row row-cols-auto flex-nowrap m-0 justify-content-start">
-      <div class="col ps-0">
+  <div class="staff p-4">
+    <div class="staff__container">
+      <div class="me-3">
         <div class="mb-3">Режиссер</div>
-        <div class="row row-cols-auto border-end">
-          <div class="col staff__item"
+        <div class="staff__director">
+          <div class="staff__item"
                v-for="director in directors.slice(0, 1)"
                :key="director.staffId">
             <img class="staff__pic mb-2" :src="director.posterUrl" :alt="director.nameRu">
-            <div class="text-center small">{{ director.nameRu }}</div>
+            <div class="small">{{ director.nameRu }}</div>
           </div>
         </div>
       </div>
 
-      <div class="col">
+      <div class="w-100">
         <div class="mb-3">В ролях</div>
-        <div class="row row-cols-auto flex-nowrap">
-          <div class="col staff__item"
-               v-for="actor in actors.slice(0, 5)"
-               :key="actor.staffId">
-            <img class="staff__pic mb-2" :src="actor.posterUrl" :alt="actor.nameRu">
-            <div class="text-center small">{{ actor.nameRu }}</div>
-          </div>
+        <div class="staff__roles">
+          <StaffActor v-for="actor in actors.slice(0, 5)" :key="actor.staffId" :actor="actor"/>
         </div>
       </div>
     </div>
@@ -35,7 +30,9 @@
   </div>
 
   <ModalDialog id="allStaff" :title="props.film + ': Съемочная группа'">
-    {{staff}}
+    <div class="staff__modal">
+      <StaffActor v-for="actor in actors" :key="actor.staffId" :actor="actor"/>
+    </div>
   </ModalDialog>
 
 </template>
@@ -44,20 +41,13 @@
 import { useStore } from 'vuex';
 import { defineProps } from 'vue';
 import ModalDialog from '@/components/ModalDialog.vue';
-
-interface staffI {
-  staffId: number,
-  nameRu: string,
-  nameEn: string,
-  description: string,
-  posterUrl: string,
-  professionText: string,
-  professionKey: string
-}
+import { staffI } from '@/types/types';
+import StaffActor from '@/components/staff/Staff-actor.vue';
 
 const props = defineProps< {id: number, film: string} >();
 const store = useStore();
-const staff: [staffI] = await store.dispatch('SingleMovie/loadStaff', props.id);
+let staff: staffI[] = await store.dispatch('SingleMovie/loadStaff', props.id);
+staff = staff.filter((s) => s.nameRu);
 const directors = staff.filter((item) => item.professionKey === 'DIRECTOR');
 const actors = staff.filter((item) => item.professionKey === 'ACTOR');
 </script>
@@ -67,20 +57,56 @@ const actors = staff.filter((item) => item.professionKey === 'ACTOR');
   background-color: white;
   border-radius: 24px;
   line-height: 1.2;
-  width: fit-content;
+  max-width: 694px;
 
-  &__item {
-    max-width: 105px;
+  &__container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+
+    @include md {
+      flex-direction: column;
+      gap: 16px;
+    }
   }
 
-  &__pic {
-    border-radius: 50px;
-    width: 50px;
-    height: 50px;
+  &__director {
+    border-right: 1px solid #ddd9d9;
+    padding-right: 16px;
 
+    .staff__item {
+      text-align: center;
+    }
+
+    @include lg {
+      border: none;
+      padding-right: 0;
+
+      .staff__item {
+        display: flex;
+      }
+    }
+
+    @include md {
+      display: inline-block;
+    }
+  }
+
+  &__roles {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    @include sm {
+      flex-wrap: nowrap;
+      overflow: auto;
+      padding-bottom: 16px;
+    }
+  }
+
+  &__modal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
   }
 }
 </style>

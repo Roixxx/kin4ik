@@ -28,6 +28,7 @@ export default class moviesModule extends VuexModule {
 
   @Mutation
   updateMovies(payload: { data: dataI, append: boolean }) {
+    if (!payload.data) return;
     const movies = payload.data.films || payload.data.items;
 
     this.moviesList = payload.append ? this.moviesList.concat(movies) : movies;
@@ -45,7 +46,7 @@ export default class moviesModule extends VuexModule {
 
     if (query) url += (window.location.search ? '&' : '?') + query;
 
-    const data = await UseFetchData(url, { loading: !append });
+    const data = await UseFetchData(url, { loading: !append, abortPrev: true });
 
     return ({ data, append });
   }
