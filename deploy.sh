@@ -16,6 +16,6 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git push -f git@github.com:roixxx/kin4ik.git main:gh-pages
+git push -f git@github.com:Roixxx/kin4ik.git main:gh-pages
 
 cd -
