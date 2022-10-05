@@ -27,7 +27,7 @@
         <StaffList :id="id" :film="movie.nameRu"/>
       </SectionBlock>
 
-      <SectionBlock v-if="videos?.length"  title="Видео о фильме">
+      <SectionBlock v-show="videos?.length"  title="Видео о фильме">
         <MovieVideos :id="id"/>
       </SectionBlock>
 
@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { computed, ComputedRef } from 'vue';
+import { computed, ComputedRef, watch } from 'vue';
 import { MovieI } from '@/types/types';
 import MovieRating from '@/components/movie/ui/Movie-rating.vue';
 import ReadMore from '@/components/Readmore.vue';
@@ -57,19 +57,20 @@ import MovieSimilar from '@/components/movie/Movie-similar.vue';
 const route = useRoute();
 const router = useRouter();
 
-const id = Number(route.params.id);
+const id = computed(() => Number(route.params.id));
 const store = useStore();
-await store.dispatch('SingleMovie/loadMovie', id);
 
+await store.dispatch('SingleMovie/loadMovie', id.value);
 const movieItem: ComputedRef<MovieI> = computed(() => store.getters['SingleMovie/getMovie']);
 const movie = movieItem.value;
 const rating = +movie.rating || +movie.ratingKinopoisk;
 const geners = movie.genres.map((el) => el.genre).join(', ');
 const country = movie.countries.map((el) => el.country).join(', ') || '';
 const { description, slogan } = movie;
-const filmLength = useFilmLength(+movie.filmLength);
 
-await store.dispatch('SingleMovie/loadVideos', id);
+const filmLength = useFilmLength(+movie.filmLength);
+await store.dispatch('SingleMovie/loadVideos', id.value);
+
 const videos = computed(() => store.getters['SingleMovie/getVideos']);
 
 const img = computed(() => ({
@@ -77,11 +78,22 @@ const img = computed(() => ({
   preview: true,
   previewBg: `background: linear-gradient(0deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.4)), url(${movie.posterUrlPreview})`,
 }));
+
+watch(id, () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+});
 </script>
 
 <style lang="scss" scoped>
 
 .movie {
+
+  &.loading {
+    filter: blur(50px);
+  }
 
   &__img-holder {
     justify-content: center;

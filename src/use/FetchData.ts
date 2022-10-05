@@ -1,6 +1,6 @@
 import axios from 'axios';
 import store from '@/store';
-// 17bc2778-ec19-4c92-8a7b-e11508d408a9
+// 17bc2778-ec19-4c92-8a7b-e11508d408a9 prod
 // 408fe1bc-9074-4b3a-ac4e-1229dad016ea
 
 interface configI {
@@ -10,14 +10,14 @@ interface configI {
 
 const config: configI = {
   headers: {
-    'X-API-KEY': '408fe1bc-9074-4b3a-ac4e-1229dad016ea',
+    'X-API-KEY': '17bc2778-ec19-4c92-8a7b-e11508d408a9',
     'Content-Type': 'application/json',
   },
 };
 
 interface settingsI {
   loading: boolean,
-  abortPrev: boolean,
+  abortPrev?: boolean,
 }
 
 let controller = new AbortController();
