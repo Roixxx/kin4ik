@@ -25,12 +25,6 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   linkActiveClass: 'active',
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition && to.name !== 'movie') {
-      return savedPosition;
-    }
-    return { top: 0 };
-  },
 });
 
 export default router;
