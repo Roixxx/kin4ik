@@ -1,4 +1,4 @@
-Kin4ik - каталог популярных фильмов.
+[Kin4ik](https://kin4ik.web.app/) - каталог популярных фильмов.
 
 Api - https://kinopoiskapiunofficial.tech/
 
